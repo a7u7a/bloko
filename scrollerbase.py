@@ -8,7 +8,7 @@ import json
 from PIL import Image
 
 from tickers import TickerData
-from rgbmatrix import graphics  
+from rgbmatrix import graphics
 # Import samplebase from parent directory 'samples'
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
@@ -22,10 +22,12 @@ class Ticker:
     pos: str = 0
     width: int = 0
 
+
 class Scroller(SampleBase):
     def __init__(self):
         super(Scroller, self).__init__()
         self.int_flag = False
+        self.load_stocks()
 
     def init_fonts(self):
         self.font = graphics.Font()
@@ -62,7 +64,7 @@ class Scroller(SampleBase):
         total_text_width = txt_width * count
         total_margin = self.matrix.width - total_text_width
         while total_margin > min_total_margin:
-            print("total_margin",total_margin)
+            print("total_margin", total_margin)
             total_text_width = txt_width * count
             total_margin = self.matrix.width - total_text_width
             count += 1
@@ -71,21 +73,23 @@ class Scroller(SampleBase):
         if count == 0:
             count = 1
 
-        return {count:count, total_margin:total_margin }
+        return {count: count, total_margin: total_margin}
 
     def update_interruption(self):
         self.clear_buffer_on_interruption()
 
         # draw initial text
-        txt_w = graphics.DrawText(self.frame_buffer, self.font, 0, 23, self.down_color, self.int_text)
-        
+        txt_w = graphics.DrawText(
+            self.frame_buffer, self.font, 0, 23, self.down_color, self.int_text)
+
         # repeat text
         rep_count, margin = self.get_repetition_count(txt_w)
         print("rep count", rep_count)
-        increment = txt_w + math.floor(margin/rep_count) 
+        increment = txt_w + math.floor(margin/rep_count)
         pos = increment
         for i in range(rep_count-1):
-            graphics.DrawText(self.frame_buffer, self.font, pos, 23, self.down_color, self.int_text)
+            graphics.DrawText(self.frame_buffer, self.font,
+                              pos, 23, self.down_color, self.int_text)
             pos += increment
 
         self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
@@ -100,7 +104,7 @@ class Scroller(SampleBase):
     def clear_buffer_on_interruption(self):
         if self.clear_buffer_flag:
             self.frame_buffer.Clear()
-            self.matrix.Fill(0,0,0)
+            self.matrix.Fill(0, 0, 0)
             self.clear_buffer_flag = False
 
     def sleep_once(self, t):
@@ -127,6 +131,29 @@ class Scroller(SampleBase):
         self.sleep_once_flag = True
         self.clear_buffer_flag = True
 
+    def load_stocks(self):
+        with open('stock_data.json') as json_file:
+            try:
+                self.stock_data = json.load(json_file)
+                print("updated stock data:", self.stock_data)
+            except:
+                self.stock_data = None
+
+    def get_ticker_fields_from_data(self, name):
+        temp_text = "wait"
+        if self.stock_data:
+            ticker_data = self.stock_data[name]
+            volume = str(ticker_data["regularMarketVolume"]["fmt"])
+            price = str(ticker_data["regularMarketPrice"]["fmt"])
+            change = str(ticker_data["regularMarketChangePercent"]["fmt"])
+            change_raw = int(ticker_data["regularMarketChangePercent"]["raw"])
+        else:
+            volume = temp_text
+            price = temp_text
+            change = temp_text
+            change_raw = 0
+        return [volume, price, change, change_raw]
+
     def update_tickers(self):
         self.frame_buffer.Clear()
         for ticker in self.active_tickers:
@@ -138,35 +165,61 @@ class Scroller(SampleBase):
 
             # here we fetch values from cached api calls
             # and draw the arrows
+    
+            volume, price, change, change_raw = self.get_ticker_fields_from_data(ticker.name)
 
             # compose frame
             self.frame_buffer.SetImage(t_image, t_pos)
 
-            self.frame_buffer.SetImage(self.arrow_down, t_pos + 10)
-            self.frame_buffer.SetImage(self.arrow_up, t_pos)
+            if change_raw > 0:
+                arrow = self.arrow_up
+            else:
+                arrow = self.arrow_down
 
-            title_w = graphics.DrawText(self.frame_buffer, self.font, t_pos + img_w, 10, self.base_color, t_name)
-            graphics.DrawText(self.frame_buffer, self.font, t_pos + img_w, 23, self.up_color, "+10")
-            graphics.DrawText(self.frame_buffer, self.font, t_pos + img_w + 25, 23, self.down_color, "-5")
+            arrow_w, arrow_h = arrow.size
+            base_margin = 4
+            first_line_h = 13
+            second_line_h = 28
+            arrow_pos_h = 21
+            text_base_pos = t_pos + img_w + 2
+
+            title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_name)
+            
+            price_pos = text_base_pos + title_w + base_margin
+            graphics.DrawText(self.frame_buffer, self.font, price_pos, first_line_h, self.base_color, price)
+            
+            volume_pos = text_base_pos
+            volume_w = graphics.DrawText(self.frame_buffer, self.font, volume_pos, second_line_h, self.base_color, volume)
+            
+            arrow_pos = text_base_pos + volume_w + base_margin
+            
+            # if change_raw != 0: # no arrow when change is zero
+            self.frame_buffer.SetImage(arrow, arrow_pos, arrow_pos_h)
+            
+            change_pos = text_base_pos + volume_w + base_margin + arrow_w + base_margin
+            graphics.DrawText(self.frame_buffer, self.font, change_pos, second_line_h, self.base_color, change)
 
             # update ticker
             # removes ticker when it has moved offscreen
-            margin = 500
-            if t_pos + margin + ticker.width == 0:
+            offscreen_margin = 500
+            if t_pos + offscreen_margin + ticker.width == 0:
                 self.active_tickers.remove(ticker)
-            txt_w = title_w + 20
-            ticker.width = img_w + txt_w 
+            
+            txt_w = title_w + 100
+            ticker.width = img_w + txt_w
             # Adds a new ticker to active_tickers when right-most ticker is completely visible
             # if the ticker right edge touches the canvas edges
             if t_pos == self.frame_buffer.width - ticker.width:
                 # fetch next ticker from ticker_list
                 self.t_index += 1
-                index_next = self.t_index % len(self.tickers) # find equivalent index in ticker_list 
+                # find equivalent index in ticker_list
+                index_next = self.t_index % len(self.tickers)
                 self.active_tickers.append(self.new_ticker(index_next))
             ticker.pos -= 1
-            
+
         # update screen
         self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
+
 
 if __name__ == "__main__":
     scroller = Scroller()
