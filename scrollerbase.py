@@ -64,7 +64,6 @@ class Scroller(SampleBase):
         total_text_width = txt_width * count
         total_margin = self.matrix.width - total_text_width
         while total_margin > min_total_margin:
-            print("total_margin", total_margin)
             total_text_width = txt_width * count
             total_margin = self.matrix.width - total_text_width
             count += 1
@@ -84,7 +83,6 @@ class Scroller(SampleBase):
 
         # repeat text
         rep_count, margin = self.get_repetition_count(txt_w)
-        print("rep count", rep_count)
         increment = txt_w + math.floor(margin/rep_count)
         pos = increment
         for i in range(rep_count-1):
