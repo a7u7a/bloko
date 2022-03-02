@@ -6,3 +6,6 @@
 ### Usage
 - Run with sudo `sudo python app.py --led-cols=64`
 - Run `sudo python kiosk.py`
+
+## Test card interruption without kiosk
+- Run `python interrupt_test.py`
