@@ -1,28 +1,17 @@
-
-from rgbmatrix import graphics
-from tickers import TickerData
-from PIL import Image
-from time import sleep
-from dataclasses import dataclass
-import uuid
-import math
 import sys
 import os
-  
-# getting the name of the directory
-# where the this file is present.
+from time import sleep
+from dataclasses import dataclass
+import math
+import uuid
+from PIL import Image
+
+from tickers import TickerData
+from rgbmatrix import graphics  
+# Import samplebase from parent directory 'samples'
 current = os.path.dirname(os.path.realpath(__file__))
-  
-# Getting the parent directory name
-# where the current directory is present.
 parent = os.path.dirname(current)
-  
-# adding the parent directory to 
-# the sys.path.
 sys.path.append(parent)
-  
-# now we can import the module in the parent
-# directory.
 from samplebase import SampleBase
 
 @dataclass
@@ -54,7 +43,7 @@ class Scroller(SampleBase):
         self.init_fonts()
         self.init_colors()
         self.t_index = 0
-        
+
         # main scroller loop
         while True:
             if not self.int_flag:
@@ -63,9 +52,39 @@ class Scroller(SampleBase):
                 self.update_interruption()
             self.usleep(10000)
 
+    # how many copies
+    def get_repetition_count(self, txt_width):
+        count = 0
+        min_total_margin = 50
+        total_text_width = txt_width * count
+        total_margin = self.matrix.width - total_text_width
+        while total_margin > min_total_margin:
+            print("total_margin",total_margin)
+            total_text_width = txt_width * count
+            total_margin = self.matrix.width - total_text_width
+            count += 1
+
+        # serve at least one
+        if count == 0:
+            count = 1
+
+        return {count:count, total_margin:total_margin }
+
     def update_interruption(self):
         self.clear_buffer_on_interruption()
-        graphics.DrawText(self.frame_buffer, self.font, self.interrupt_text_pos, 23, self.down_color, self.int_text)
+
+        # draw initial text
+        txt_w = graphics.DrawText(self.frame_buffer, self.font, 0, 23, self.down_color, self.int_text)
+        
+        # repeat text
+        rep_count, margin = self.get_repetition_count(txt_w)
+        print("rep count", rep_count)
+        increment = txt_w + math.floor(margin/rep_count) 
+        pos = increment
+        for i in range(rep_count-1):
+            graphics.DrawText(self.frame_buffer, self.font, pos, 23, self.down_color, self.int_text)
+            pos += increment
+
         self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
         self.sleep_once(1)
         if self.matrix.brightness > 0:
@@ -99,10 +118,8 @@ class Scroller(SampleBase):
         return Ticker(id=uuid.uuid1(), name=self.tickers[index]["name"], pos=self.frame_buffer.width)
 
     def interrupt(self, text):
-        print("interrupted")
         self.int_text = text
         self.max_brightness = self.matrix.brightness
-        self.interrupt_text_pos = math.floor(self.matrix.width / 2)
         self.int_flag = True
         self.sleep_once_flag = True
         self.clear_buffer_flag = True

@@ -10,7 +10,6 @@ from tickers import TickerData
 class Finance(object):
     def __init__(self):
         self.tickerData = TickerData()
-        print('Starting yfinance daemon..')
         self.thread = Thread(target=self.run_yfinance)
         self.thread.daemon = True
         self.thread.start()

@@ -6,18 +6,16 @@ from async_finance import Finance
 class EchoServerProtocol(asyncio.Protocol):
     def connection_made(self, transport):
         peername = transport.get_extra_info('peername')
-        print('Connection from {}'.format(peername))
+        # print('Connection from {}'.format(peername))
         self.transport = transport
 
     def data_received(self, data):
         message = data.decode()
-        print('Data received: {!r}'.format(message))
+        print('Interrupt received: {!r}'.format(message))
         scroller.interrupt(str(message))
-
-        print('Send: {!r}'.format(message))
+        # print('Send: {!r}'.format(message))
         self.transport.write(data)
-
-        print('Close the client socket')
+        # print('Close the client socket')
         self.transport.close()
 
 async def main():
@@ -30,7 +28,6 @@ async def main():
 
 def run_socket_server():
     asyncio.run(main())
-
 
 print("Starting finance data service")
 finance = Finance()
