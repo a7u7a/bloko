@@ -4,6 +4,7 @@ from time import sleep
 from dataclasses import dataclass
 import math
 import uuid
+import json
 from PIL import Image
 
 from tickers import TickerData
@@ -39,6 +40,8 @@ class Scroller(SampleBase):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
         self.tickers = TickerData().tickers
         self.images = self.load_imgs()
+        self.arrow_up = Image.open("./images/arrow_green.ppm").convert('RGB')
+        self.arrow_down = Image.open("./images/arrow_red.ppm").convert('RGB')
         self.active_tickers = [self.new_ticker(0)]
         self.init_fonts()
         self.init_colors()
@@ -109,7 +112,7 @@ class Scroller(SampleBase):
         img_dict = {}
         for t in self.tickers:
             image = Image.open(t["image_path"]).convert('RGB')
-            image.resize((self.matrix.width, self.matrix.height), Image.ANTIALIAS)
+            # image.resize((self.matrix.width, self.matrix.height), Image.ANTIALIAS)
             t_name = t["name"]
             img_dict[t_name] = image
         return img_dict
@@ -138,6 +141,10 @@ class Scroller(SampleBase):
 
             # compose frame
             self.frame_buffer.SetImage(t_image, t_pos)
+
+            self.frame_buffer.SetImage(self.arrow_down, t_pos + 10)
+            self.frame_buffer.SetImage(self.arrow_up, t_pos)
+
             title_w = graphics.DrawText(self.frame_buffer, self.font, t_pos + img_w, 10, self.base_color, t_name)
             graphics.DrawText(self.frame_buffer, self.font, t_pos + img_w, 23, self.up_color, "+10")
             graphics.DrawText(self.frame_buffer, self.font, t_pos + img_w + 25, 23, self.down_color, "-5")
