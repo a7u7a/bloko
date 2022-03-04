@@ -133,9 +133,10 @@ class Scroller(SampleBase):
         with open('stock_data.json') as json_file:
             try:
                 self.stock_data = json.load(json_file)
-                print("updated stock data:", self.stock_data)
+                print("Updated stock data OK")
             except:
                 self.stock_data = None
+                print("Error updating stock data")
 
     def get_ticker_fields_from_data(self, name):
         temp_text = "wait"

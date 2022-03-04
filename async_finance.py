@@ -41,6 +41,7 @@ class Finance(object):
                 results = pool.map(self.get_stocks_data, stocks)
             data = {}
             for r in results:
+                print("r",r)
                 data[r[0]] = r[1]
             self.save_file(data)
             now = datetime.now()
