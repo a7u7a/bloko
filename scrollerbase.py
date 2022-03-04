@@ -1,3 +1,4 @@
+from email.mime import base
 import sys
 import os
 from time import sleep
@@ -31,12 +32,11 @@ class Scroller(SampleBase):
 
     def init_fonts(self):
         self.font = graphics.Font()
+        self.interrupt_font = graphics.Font()
         self.font.LoadFont("../../../../fonts/7x13.bdf")
+        self.interrupt_font.LoadFont("./fonts/helvB24.bdf")
 
-    def init_colors(self):
-        self.base_color = graphics.Color(255, 255, 255)
-        self.up_color = graphics.Color(0, 255, 0)
-        self.down_color = graphics.Color(255, 0, 0)
+
 
     def run(self):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
@@ -74,12 +74,18 @@ class Scroller(SampleBase):
 
         return {count: count, total_margin: total_margin}
 
+    def init_colors(self):
+        self.base_color = graphics.Color(255, 255, 255)
+        self.up_color = graphics.Color(0, 255, 0)
+        self.down_color = graphics.Color(255, 0, 0)
+        self.interrupt_color = graphics.Color(255, 0, 0)
+
     def update_interruption(self):
         self.clear_buffer_on_interruption()
 
         # draw initial text
         txt_w = graphics.DrawText(
-            self.frame_buffer, self.font, 0, 23, self.down_color, self.int_text)
+            self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
 
         # repeat text
         rep_count, margin = self.get_repetition_count(txt_w)
@@ -145,13 +151,13 @@ class Scroller(SampleBase):
             volume = str(ticker_data["regularMarketVolume"]["fmt"])
             price = str(ticker_data["regularMarketPrice"]["fmt"])
             change = str(ticker_data["regularMarketChangePercent"]["fmt"])
-            change_raw = int(ticker_data["regularMarketChangePercent"]["raw"])
+            change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])  
         else:
             volume = temp_text
             price = temp_text
             change = temp_text
             change_raw = 0
-        return [volume, price, change, change_raw]
+        return [price, change, change_raw]        
 
     def update_tickers(self):
         self.frame_buffer.Clear()
@@ -162,41 +168,45 @@ class Scroller(SampleBase):
             t_image = self.images[t_name]
             img_w, img_h = t_image.size
 
+            ########### MAKE THIS A FUNCTION
             # here we fetch values from cached api calls
             # and draw the arrows
     
-            volume, price, change, change_raw = self.get_ticker_fields_from_data(ticker.name)
+            price, change, change_raw = self.get_ticker_fields_from_data(ticker.name)
 
             # compose frame
             self.frame_buffer.SetImage(t_image, t_pos)
-
+            # print("change_raw",change_raw)
             if change_raw > 0:
                 arrow = self.arrow_up
+                change_color = self.up_color
             else:
                 arrow = self.arrow_down
+                change_color = self.down_color
 
             arrow_w, arrow_h = arrow.size
             base_margin = 4
             first_line_h = 13
             second_line_h = 28
             arrow_pos_h = 21
-            text_base_pos = t_pos + img_w + 2
-
+            left_margin = 4
+            right_margin = 12
+            text_base_pos = t_pos + img_w + left_margin
             title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_name)
-            
-            price_pos = text_base_pos + title_w + base_margin
-            graphics.DrawText(self.frame_buffer, self.font, price_pos, first_line_h, self.base_color, price)
-            
-            volume_pos = text_base_pos
-            volume_w = graphics.DrawText(self.frame_buffer, self.font, volume_pos, second_line_h, self.base_color, volume)
-            
-            arrow_pos = text_base_pos + volume_w + base_margin
-            
+            price_pos = text_base_pos
+            price_w = graphics.DrawText(self.frame_buffer, self.font, price_pos, second_line_h, self.base_color, price)
+            arrow_pos = price_pos + base_margin + price_w
             # if change_raw != 0: # no arrow when change is zero
             self.frame_buffer.SetImage(arrow, arrow_pos, arrow_pos_h)
-            
-            change_pos = text_base_pos + volume_w + base_margin + arrow_w + base_margin
-            graphics.DrawText(self.frame_buffer, self.font, change_pos, second_line_h, self.base_color, change)
+            change_pos = arrow_pos + arrow_w + base_margin
+            change_w = graphics.DrawText(self.frame_buffer, self.font, change_pos, second_line_h, change_color, change)
+            line_top_w = title_w
+            line_bottom_w = price_w + base_margin + arrow_w + base_margin + change_w
+            if line_top_w > line_bottom_w:
+                txt_w = line_top_w + right_margin
+            else:
+                txt_w = line_bottom_w + right_margin
+            ###########
 
             # update ticker
             # removes ticker when it has moved offscreen
@@ -204,7 +214,7 @@ class Scroller(SampleBase):
             if t_pos + offscreen_margin + ticker.width == 0:
                 self.active_tickers.remove(ticker)
             
-            txt_w = title_w + 100
+           
             ticker.width = img_w + txt_w
             # Adds a new ticker to active_tickers when right-most ticker is completely visible
             # if the ticker right edge touches the canvas edges

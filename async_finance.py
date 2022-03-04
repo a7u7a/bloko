@@ -40,10 +40,12 @@ class Finance(object):
             with ThreadPoolExecutor(max_workers=4) as pool:
                 results = pool.map(self.get_stocks_data, stocks)
             data = {}
-            for r in results:
-                print("r",r)
-                data[r[0]] = r[1]
-            self.save_file(data)
-            now = datetime.now()
-            print("Updated stock_data.json at", now)
+            try:
+                for r in results:
+                    print("r",r)
+                    data[r[0]] = r[1]
+                self.save_file(data)
+                print("Updated stock_data.json at", datetime.now())
+            except:
+                print("Error getting ticker data from the internet. Maybe no connection?")
             time.sleep(1800) # sleep for 30 minutes

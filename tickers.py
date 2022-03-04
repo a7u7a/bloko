@@ -4,7 +4,7 @@ class TickerData(object):
     def __init__(self):
         self.tickers = json.loads("""{
         "tickers": [
-             {
+            {
                 "name":"TSLA",
                 "image_path": "./images/tesla.ppm"
             },
@@ -59,7 +59,7 @@ class TickerData(object):
                 "name":"COST",
                 "image_path": "./images/cosco.ppm"
             },
-                        {
+            {
                 "name":"CRM",
                 "image_path": "./images/cosco.ppm"
             }, 
