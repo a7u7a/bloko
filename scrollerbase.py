@@ -34,7 +34,7 @@ class Scroller(SampleBase):
         self.font = graphics.Font()
         self.interrupt_font = graphics.Font()
         self.font.LoadFont("../../../../fonts/7x13.bdf")
-        self.interrupt_font.LoadFont("./fonts/helvB24.bdf")
+        self.interrupt_font.LoadFont("./fonts/helvB18.bdf")
 
 
 
@@ -60,7 +60,7 @@ class Scroller(SampleBase):
     # how many copies
     def get_repetition_count(self, txt_width):
         count = 0
-        min_total_margin = 50
+        min_total_margin = 500
         total_text_width = txt_width * count
         total_margin = self.matrix.width - total_text_width
         while total_margin > min_total_margin:
@@ -78,29 +78,17 @@ class Scroller(SampleBase):
         self.base_color = graphics.Color(255, 255, 255)
         self.up_color = graphics.Color(0, 255, 0)
         self.down_color = graphics.Color(255, 0, 0)
-        self.interrupt_color = graphics.Color(255, 0, 0)
+        self.interrupt_color = graphics.Color(255,0, 0)
 
     def update_interruption(self):
         self.clear_buffer_on_interruption()
 
         # draw initial text
-        txt_w = graphics.DrawText(
-            self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
-
-        # repeat text
-        rep_count, margin = self.get_repetition_count(txt_w)
-        increment = txt_w + math.floor(margin/rep_count)
-        pos = increment
-        for i in range(rep_count-1):
-            graphics.DrawText(self.frame_buffer, self.font,
-                              pos, 23, self.down_color, self.int_text)
-            pos += increment
-
-        self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
+       
         self.sleep_once(1)
         if self.matrix.brightness > 0:
             self.matrix.brightness -= 1
-            self.usleep(10000)
+            self.usleep(300000)
         else:
             self.int_flag = False
             self.matrix.brightness = self.max_brightness
@@ -110,7 +98,9 @@ class Scroller(SampleBase):
             self.frame_buffer.Clear()
             self.matrix.Fill(0, 0, 0)
             self.clear_buffer_flag = False
-
+            txt_w = graphics.DrawText(
+            self.frame_buffer, self.interrupt_font, self.matrix.width/4, 24, self.interrupt_color, self.int_text)
+            self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
     def sleep_once(self, t):
         if self.sleep_once_flag:
             sleep(t)
@@ -186,15 +176,15 @@ class Scroller(SampleBase):
 
             arrow_w, arrow_h = arrow.size
             base_margin = 4
-            first_line_h = 13
-            second_line_h = 28
+            first_line_h = 15
+            second_line_h = 26
             arrow_pos_h = 21
             left_margin = 4
             right_margin = 12
             text_base_pos = t_pos + img_w + left_margin
             title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_name)
             price_pos = text_base_pos
-            price_w = graphics.DrawText(self.frame_buffer, self.font, price_pos, second_line_h, self.base_color, price)
+            price_w = graphics.DrawText(self.frame_buffer, self.font, price_pos, second_line_h, self.up_color, price)
             arrow_pos = price_pos + base_margin + price_w
             # if change_raw != 0: # no arrow when change is zero
             self.frame_buffer.SetImage(arrow, arrow_pos, arrow_pos_h)

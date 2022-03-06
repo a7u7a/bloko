@@ -22,10 +22,7 @@ class TickerData(object):
             {
                 "name":"AAPL",
                 "image_path": "./images/apple.ppm"
-            },
-            {
-                "name":"ABBV",
-                "image_path": "./images/apple.ppm"
+
             },
             {
                 "name":"ABT",
@@ -47,20 +44,13 @@ class TickerData(object):
                 "name":"AVGO",
                 "image_path": "./images/broadcom.ppm"
             },
-            {
-                "name":"BABA",
-                "image_path": "./images/alibaba.ppm"
-            },
+
             {
                 "name":"CMCSA",
                 "image_path": "./images/comcast.ppm"
-            },               
+            },     
             {
                 "name":"COST",
-                "image_path": "./images/cosco.ppm"
-            },
-            {
-                "name":"CRM",
                 "image_path": "./images/cosco.ppm"
             }, 
             {
@@ -69,7 +59,7 @@ class TickerData(object):
             },
             {
                 "name":"CVX",
-                "image_path": "./images/cisco.ppm"
+                "image_path": "./images/chevron.ppm"
             },
             {
                 "name":"DIS",
@@ -78,11 +68,7 @@ class TickerData(object):
             {
                 "name":"FB",
                 "image_path": "./images/meta.ppm"
-            },         
-            {
-                "name":"GOOG",
-                "image_path": "./images/google.ppm"
-            },           
+            },
             {
                 "name":"GOOGL",
                 "image_path": "./images/google.ppm"
@@ -97,15 +83,12 @@ class TickerData(object):
             },
             {
                 "name":"JPM",
-                "image_path": "./images/jpmorgan.ppm"
+                "image_path": "./images/chase.ppm"
             },
             {
                 "name":"KO",
-                "image_path": "./images/cocacola.ppm"
-            },
-            {
-                "name":"LLY",
-                "image_path": "./images/cocacola.ppm"
+                "image_path": "./images/coca.ppm"
+
             },
             {
                 "name":"MA",
@@ -115,20 +98,9 @@ class TickerData(object):
                 "name":"NKE",
                 "image_path": "./images/nike.ppm"
             },
-            {
-                "name":"NTES",
-                "image_path": "./images/nike.ppm"
-            },          
+ 
             {
                 "name":"NVDA",
-                "image_path": "./images/nvidia.ppm"
-            },
-            {
-                "name":"NVO",
-                "image_path": "./images/nvidia.ppm"
-            },
-            {
-                "name":"ORCL",
                 "image_path": "./images/nvidia.ppm"
             },
             {
@@ -140,48 +112,41 @@ class TickerData(object):
                 "image_path": "./images/pfizer.ppm"
             },
             {
-                "name":"PG",
-                "image_path": "./images/pfizer.ppm"
+                "name":"PRDSY",
+                "image_path": "./images/prada.ppm"
             },                
             {
                 "name":"SHEL",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/shell.ppm"
             },
             {
                 "name":"TM",
-                "image_path": "./images/pfizer.ppm"
-            },
-            {
-                "name":"TMO",
-                "image_path": "./images/pfizer.ppm"
-            },
-            {
-                "name":"TSM",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/toyota.ppm"
+
             },
             {
                 "name":"V",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/visa.ppm"
             },
             {
                 "name":"VZ",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/verizon.ppm"
             },
             {
                 "name":"WMT",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/wallmart.ppm"
             },
             {
                 "name":"XOM",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/exxon.ppm"
             },
             {
                 "name":"UNH",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/uhg.ppm"
             },
             {
                 "name":"BAC",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/bankofamerica.ppm"
             }                             
         ]
         }"""
@@ -192,3 +157,4 @@ class TickerData(object):
         for ticker in self.tickers:
             list.append(ticker['name'])
         return list
+

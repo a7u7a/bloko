@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+import json
+class TickerData(object):
+    def __init__(self):
+        self.tickers = json.loads("""{
+        "tickers": [
+             {
+                "name":"AAPL",
+                "image_path": "./images/apple.ppm"
+            },
+            {
+                "name":"ABBV",
+                "image_path": "./images/abbvie.ppm"
+            },{
+                "name":"ABT",
+                "image_path": "./images/ABBIE.ppm"
+            },
+            {
+                "name":"ADBE",
+                "image_path": "./images/adobe.ppm"
+            },
+            {
+                "name":"AMZN",
+                "image_path": "./images/amazon.ppm"
+            },
+            {
+                "name":"AZML",
+                "image_path": "./images/amsl.ppm"
+            },
+            {
+                "name":"AVGO",
+                "image_path": "./images/broadcom.ppm"
+            },
+            {
+                "name":"BABA",
+                "image_path": "./images/alibaba.ppm"}
+
+        ]
+        }"""
+         )["tickers"]
+
+    def names_list(self):
+        list =[]
+        for ticker in self.tickers:
+            list.append(ticker['name'])
+        return list
