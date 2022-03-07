@@ -36,8 +36,6 @@ class Scroller(SampleBase):
         self.font.LoadFont("../../../../fonts/7x13.bdf")
         self.interrupt_font.LoadFont("./fonts/helvB18.bdf")
 
-
-
     def run(self):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
         self.tickers = TickerData().tickers
@@ -56,7 +54,7 @@ class Scroller(SampleBase):
             else:
                 self.update_interruption()
             self.usleep(10000)
-            
+
     def init_colors(self):
         self.base_color = graphics.Color(255, 255, 255)
         self.up_color = graphics.Color(0, 255, 0)
@@ -78,13 +76,14 @@ class Scroller(SampleBase):
         if self.clear_buffer_flag:
             self.frame_buffer.Clear()
             self.matrix.Fill(0, 0, 0)
-            txt_w = graphics.DrawText(
-            self.frame_buffer, self.interrupt_font, self.matrix.width/4, 24, self.interrupt_color, self.int_text)
+            # draw init text
+            txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, self.matrix.width/4, 0, self.interrupt_color, self.int_text)
+            print("total width:", self.matrix.width, "text width", txt_w)
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
             self.sleep_once(20)
             self.clear_buffer_flag = False
 
-# how many copies
+    # how many copies
     def get_repetition_count(self, txt_width):
         count = 0
         min_total_margin = 500
