@@ -82,7 +82,7 @@ class Scroller(SampleBase):
 
     def update_interruption(self):
         self.clear_buffer_on_interruption()
-        self.usleep(300000)
+        self.sleep(20)
         self.int_flag = False
         # draw initial text
         # if self.matrix.brightness > 0:
