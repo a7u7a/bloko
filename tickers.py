@@ -11,7 +11,8 @@ class TickerData(object):
             {
                 "name":"MSFT",
                 "image_path": "./images/microsoft.ppm"
-            },{
+            },
+            {
                 "name":"AMZN",
                 "image_path": "./images/amazon.ppm"
             },
@@ -22,7 +23,6 @@ class TickerData(object):
             {
                 "name":"AAPL",
                 "image_path": "./images/apple.ppm"
-
             },
             {
                 "name":"ABT",
@@ -44,7 +44,6 @@ class TickerData(object):
                 "name":"AVGO",
                 "image_path": "./images/broadcom.ppm"
             },
-
             {
                 "name":"CMCSA",
                 "image_path": "./images/comcast.ppm"
@@ -88,7 +87,6 @@ class TickerData(object):
             {
                 "name":"KO",
                 "image_path": "./images/coca.ppm"
-
             },
             {
                 "name":"MA",
@@ -98,7 +96,6 @@ class TickerData(object):
                 "name":"NKE",
                 "image_path": "./images/nike.ppm"
             },
- 
             {
                 "name":"NVDA",
                 "image_path": "./images/nvidia.ppm"
@@ -122,7 +119,6 @@ class TickerData(object):
             {
                 "name":"TM",
                 "image_path": "./images/toyota.ppm"
-
             },
             {
                 "name":"V",
