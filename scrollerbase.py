@@ -71,26 +71,46 @@ class Scroller(SampleBase):
         # else:
         #     self.int_flag = False
         #     self.matrix.brightness = self.max_brightness
-# 1536 - 630
+        # 1536 - 630
+
     def clear_buffer_on_interruption(self):
         if self.clear_buffer_flag:
             self.frame_buffer.Clear()
             self.matrix.Fill(0, 0, 0)
             # draw init text
             txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
-            self.print_reps(txt_w)
-            print("total width:", self.matrix.width, "text width", txt_w)
+            reps = self.get_reps(txt_w)
+            print("reps", reps)
+            self.print_reps(reps, txt_w)
+            
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
             self.sleep_once(20)
             self.clear_buffer_flag = False
 
-    def print_reps(self, txt_w):
-        space_avail = self.matrix.width - txt_w # 906
+    # def print_reps(self, txt_w):
+    #     space_avail = self.matrix.width - txt_w # 906
+    #     min_margin = 100
+    #     if (space_avail - min_margin) > txt_w: 
+    #         print("printing reps")
+    #         anchor = (txt_w + (space_avail/2)) - (txt_w/2)
+    #         graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
+
+    def get_reps(self, txt_w):
+        space_avail = self.matrix.width - txt_w 
         min_margin = 100
-        if (space_avail - min_margin) > txt_w: 
-            print("printing reps")
-            anchor = (txt_w + (space_avail/2)) - (txt_w/2)
+        reps = 1
+        while (space_avail - min_margin) > txt_w:
+            reps += 1
+            space_avail = space_avail/2
+        return reps
+
+    def print_reps(self, reps, txt_w):
+        space_avail = self.matrix.width - txt_w
+        increment = (space_avail/reps) + txt_w
+        anchor = increment
+        for rep in range(0,reps):
             graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
+            anchor += increment
 
     # how many copies
     def get_repetition_count(self, txt_width):
