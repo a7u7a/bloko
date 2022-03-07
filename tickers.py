@@ -21,6 +21,10 @@ class TickerData(object):
                 "image_path": "./images/bitcoin.ppm"
             },
             {
+                "name":"BP",
+                "image_path": "./images/bp.ppm"
+            },
+            {
                 "name":"AAPL",
                 "image_path": "./images/apple.ppm"
             },
@@ -116,6 +120,11 @@ class TickerData(object):
                 "name":"SHEL",
                 "image_path": "./images/shell.ppm"
             },
+            {
+                "name":"SMSN.IL",
+                "image_path": "./images/samsung.ppm"
+            },
+
             {
                 "name":"TM",
                 "image_path": "./images/toyota.ppm"
