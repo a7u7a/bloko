@@ -145,18 +145,19 @@ class Scroller(SampleBase):
 
     def get_ticker_fields_from_data(self, name):
         temp_text = "wait"
-        if self.stock_data:
+        try:
             ticker_data = self.stock_data[name]
             volume = str(ticker_data["regularMarketVolume"]["fmt"])
             price = str(ticker_data["regularMarketPrice"]["fmt"])
             change = str(ticker_data["regularMarketChangePercent"]["fmt"])
             change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])  
-        else:
+        except Exception as e: 
+            print(e)
             volume = temp_text
             price = temp_text
             change = temp_text
             change_raw = 0
-        return [price, change, change_raw]        
+        return [price, change, change_raw]
 
     def update_tickers(self):
         self.frame_buffer.Clear()
