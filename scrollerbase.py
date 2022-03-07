@@ -98,7 +98,7 @@ class Scroller(SampleBase):
     def get_reps(self, txt_w):
         space_avail = self.matrix.width - txt_w 
         min_margin = 100
-        reps = 1
+        reps = 0
         while (space_avail - min_margin) > txt_w:
             reps += 1
             space_avail = space_avail/2
@@ -109,6 +109,7 @@ class Scroller(SampleBase):
         increment = (space_avail/reps) + txt_w
         anchor = increment
         for rep in range(0,reps):
+            print("printing", rep)
             graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
             anchor += increment
 
