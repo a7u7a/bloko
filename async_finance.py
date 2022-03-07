@@ -49,4 +49,4 @@ class Finance(object):
             except Exception as e: 
                 print(e)
                 print("Error getting ticker data from the internet. Maybe no connection?")
-            time.sleep(1800) # sleep for 30 minutes
+            time.sleep(60) # sleep for 30 minutes
