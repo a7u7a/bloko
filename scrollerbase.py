@@ -71,7 +71,7 @@ class Scroller(SampleBase):
         # else:
         #     self.int_flag = False
         #     self.matrix.brightness = self.max_brightness
-1536 - 630
+# 1536 - 630
     def clear_buffer_on_interruption(self):
         if self.clear_buffer_flag:
             self.frame_buffer.Clear()
