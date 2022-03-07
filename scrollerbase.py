@@ -81,7 +81,7 @@ class Scroller(SampleBase):
             self.print_reps(txt_w)
             print("total width:", self.matrix.width, "text width", txt_w)
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
-            self.sleep_once(20)
+            self.sleep_once(5)
             self.clear_buffer_flag = False
 
     def print_reps(self, txt_w):
@@ -89,7 +89,8 @@ class Scroller(SampleBase):
         min_margin = 100
         if (space_avail - min_margin) > txt_w: 
             print("printing reps")
-            graphics.DrawText(self.frame_buffer, self.interrupt_font, txt_w + min_margin, 24, self.interrupt_color, self.int_text)
+            anchor = (txt_w + (space_avail/2)) - (txt_w/2)
+            graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
 
     # how many copies
     def get_repetition_count(self, txt_width):
