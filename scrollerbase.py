@@ -81,7 +81,7 @@ class Scroller(SampleBase):
             self.print_reps(txt_w)
             print("total width:", self.matrix.width, "text width", txt_w)
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
-            self.sleep_once(5)
+            self.sleep_once(20)
             self.clear_buffer_flag = False
 
     def print_reps(self, txt_w):
