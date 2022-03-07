@@ -23,7 +23,6 @@ class Ticker:
     pos: str = 0
     width: int = 0
 
-
 class Scroller(SampleBase):
     def __init__(self):
         super(Scroller, self).__init__()
@@ -64,14 +63,6 @@ class Scroller(SampleBase):
     def update_interruption(self):
         self.clear_buffer_on_interruption()
         self.int_flag = False
-        # draw initial text
-        # if self.matrix.brightness > 0:
-        #     self.matrix.brightness -= 1
-        #     self.usleep(300000)
-        # else:
-        #     self.int_flag = False
-        #     self.matrix.brightness = self.max_brightness
-        # 1536 - 630
 
     def clear_buffer_on_interruption(self):
         if self.clear_buffer_flag:
@@ -80,20 +71,10 @@ class Scroller(SampleBase):
             # draw init text
             txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
             reps = self.get_reps(txt_w)
-            print("reps", reps)
             self.print_reps(reps, txt_w)
-            
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
             self.sleep_once(20)
             self.clear_buffer_flag = False
-
-    # def print_reps(self, txt_w):
-    #     space_avail = self.matrix.width - txt_w # 906
-    #     min_margin = 100
-    #     if (space_avail - min_margin) > txt_w: 
-    #         print("printing reps")
-    #         anchor = (txt_w + (space_avail/2)) - (txt_w/2)
-    #         graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
 
     def get_reps(self, txt_w):
         space_avail = self.matrix.width - txt_w 
@@ -109,7 +90,6 @@ class Scroller(SampleBase):
         increment = (space_avail/reps) + txt_w
         anchor = increment
         for rep in range(0,reps):
-            print("printing", rep)
             graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
             anchor += increment
 
@@ -139,7 +119,6 @@ class Scroller(SampleBase):
         img_dict = {}
         for t in self.tickers:
             image = Image.open(t["image_path"]).convert('RGB')
-            # image.resize((self.matrix.width, self.matrix.height), Image.ANTIALIAS)
             t_name = t["name"]
             img_dict[t_name] = image
         return img_dict
