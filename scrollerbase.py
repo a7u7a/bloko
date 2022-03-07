@@ -77,11 +77,19 @@ class Scroller(SampleBase):
             self.frame_buffer.Clear()
             self.matrix.Fill(0, 0, 0)
             # draw init text
-            txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, self.matrix.width/4, 0, self.interrupt_color, self.int_text)
+            txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
+            self.print_reps(txt_w)
             print("total width:", self.matrix.width, "text width", txt_w)
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
             self.sleep_once(20)
             self.clear_buffer_flag = False
+
+    def print_reps(self, txt_w):
+        space_avail = self.matrix.width - txt_w
+        min_margin = 200
+        if space_avail - min_margin > txt_w:
+            print("printing reps")
+            graphics.DrawText(self.frame_buffer, self.interrupt_font, space_avail + min_margin, 24, self.interrupt_color, self.int_text)
 
     # how many copies
     def get_repetition_count(self, txt_width):
