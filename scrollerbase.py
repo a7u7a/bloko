@@ -71,7 +71,7 @@ class Scroller(SampleBase):
         # else:
         #     self.int_flag = False
         #     self.matrix.brightness = self.max_brightness
-
+1536 - 630
     def clear_buffer_on_interruption(self):
         if self.clear_buffer_flag:
             self.frame_buffer.Clear()
@@ -85,11 +85,11 @@ class Scroller(SampleBase):
             self.clear_buffer_flag = False
 
     def print_reps(self, txt_w):
-        space_avail = self.matrix.width - txt_w
+        space_avail = self.matrix.width - txt_w # 906
         min_margin = 100
-        if (space_avail - min_margin) > txt_w:
+        if (space_avail - min_margin) > txt_w: 
             print("printing reps")
-            graphics.DrawText(self.frame_buffer, self.interrupt_font, space_avail + min_margin, 24, self.interrupt_color, self.int_text)
+            graphics.DrawText(self.frame_buffer, self.interrupt_font, txt_w + min_margin, 24, self.interrupt_color, self.int_text)
 
     # how many copies
     def get_repetition_count(self, txt_width):
