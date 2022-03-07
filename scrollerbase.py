@@ -87,7 +87,7 @@ class Scroller(SampleBase):
     def print_reps(self, txt_w):
         space_avail = self.matrix.width - txt_w
         min_margin = 100
-        if space_avail - min_margin > txt_w:
+        if (space_avail - min_margin) > txt_w:
             print("printing reps")
             graphics.DrawText(self.frame_buffer, self.interrupt_font, space_avail + min_margin, 24, self.interrupt_color, self.int_text)
 
