@@ -16,7 +16,7 @@ class TickerData(object):
                 "image_path": "./images/amazon.ppm"
             },
             {
-                "name":"BTC",
+                "name":"BTC-USD",
                 "image_path": "./images/bitcoin.ppm"
             },
             {
