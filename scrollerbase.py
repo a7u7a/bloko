@@ -83,7 +83,7 @@ class Scroller(SampleBase):
 
     def get_reps(self, txt_w):
         space_avail = self.matrix.width - txt_w 
-        min_margin = 100
+        min_margin = 50
         reps = 0
         while (space_avail - min_margin) > txt_w:
             reps += 1
