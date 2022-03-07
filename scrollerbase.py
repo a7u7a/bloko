@@ -71,7 +71,12 @@ class Scroller(SampleBase):
             # draw init text
             txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
             reps = self.get_reps(txt_w)
-            self.print_reps(reps, txt_w)
+            if reps > 1:
+                self.print_reps(reps, txt_w)
+            else:
+                self.frame_buffer.Clear()
+                anchor=(self.matrix.width/2) - (txt_w/2)
+                graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
             self.sleep_once(20)
             self.clear_buffer_flag = False
