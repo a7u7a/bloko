@@ -82,25 +82,26 @@ class Scroller(SampleBase):
 
     def update_interruption(self):
         self.clear_buffer_on_interruption()
-
+        self.usleep(300000)
+        self.int_flag = False
         # draw initial text
-       
-        self.sleep_once(1)
-        if self.matrix.brightness > 0:
-            self.matrix.brightness -= 1
-            self.usleep(300000)
-        else:
-            self.int_flag = False
-            self.matrix.brightness = self.max_brightness
+        # if self.matrix.brightness > 0:
+        #     self.matrix.brightness -= 1
+        #     self.usleep(300000)
+        # else:
+        #     self.int_flag = False
+        #     self.matrix.brightness = self.max_brightness
 
     def clear_buffer_on_interruption(self):
         if self.clear_buffer_flag:
             self.frame_buffer.Clear()
             self.matrix.Fill(0, 0, 0)
-            self.clear_buffer_flag = False
             txt_w = graphics.DrawText(
             self.frame_buffer, self.interrupt_font, self.matrix.width/4, 24, self.interrupt_color, self.int_text)
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
+            self.sleep_once(1)
+            self.clear_buffer_flag = False
+
     def sleep_once(self, t):
         if self.sleep_once_flag:
             sleep(t)
