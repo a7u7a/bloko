@@ -56,24 +56,7 @@ class Scroller(SampleBase):
             else:
                 self.update_interruption()
             self.usleep(10000)
-
-    # how many copies
-    def get_repetition_count(self, txt_width):
-        count = 0
-        min_total_margin = 500
-        total_text_width = txt_width * count
-        total_margin = self.matrix.width - total_text_width
-        while total_margin > min_total_margin:
-            total_text_width = txt_width * count
-            total_margin = self.matrix.width - total_text_width
-            count += 1
-
-        # serve at least one
-        if count == 0:
-            count = 1
-
-        return {count: count, total_margin: total_margin}
-
+            
     def init_colors(self):
         self.base_color = graphics.Color(255, 255, 255)
         self.up_color = graphics.Color(0, 255, 0)
@@ -82,7 +65,6 @@ class Scroller(SampleBase):
 
     def update_interruption(self):
         self.clear_buffer_on_interruption()
-        self.sleep(20)
         self.int_flag = False
         # draw initial text
         # if self.matrix.brightness > 0:
@@ -99,8 +81,25 @@ class Scroller(SampleBase):
             txt_w = graphics.DrawText(
             self.frame_buffer, self.interrupt_font, self.matrix.width/4, 24, self.interrupt_color, self.int_text)
             self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
-            self.sleep_once(1)
+            self.sleep_once(20)
             self.clear_buffer_flag = False
+
+# how many copies
+    def get_repetition_count(self, txt_width):
+        count = 0
+        min_total_margin = 500
+        total_text_width = txt_width * count
+        total_margin = self.matrix.width - total_text_width
+        while total_margin > min_total_margin:
+            total_text_width = txt_width * count
+            total_margin = self.matrix.width - total_text_width
+            count += 1
+
+        # serve at least one
+        if count == 0:
+            count = 1
+
+        return {count: count, total_margin: total_margin}
 
     def sleep_once(self, t):
         if self.sleep_once_flag:
