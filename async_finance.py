@@ -19,7 +19,7 @@ class Finance(object):
         try:
             url = 'https://query1.finance.yahoo.com/v10/finance/quoteSummary/{symbol}?modules=price'.format(symbol=symbol)
             data = {}
-            with urlopen(url, timeout=3) as connection:
+            with urlopen(url, timeout=10) as connection:
                 res = json.loads(connection.read())['quoteSummary']['result'][0]['price']
                 data["regularMarketPrice"] = res['regularMarketPrice']
                 data['regularMarketVolume'] = res['regularMarketVolume']
