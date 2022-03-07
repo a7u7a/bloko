@@ -46,6 +46,7 @@ class Finance(object):
                     data[r[0]] = r[1]
                 self.save_file(data)
                 print("Updated stock_data.json at", datetime.now())
-            except:
+            except Exception as e: 
+                print(e)
                 print("Error getting ticker data from the internet. Maybe no connection?")
             time.sleep(1800) # sleep for 30 minutes
