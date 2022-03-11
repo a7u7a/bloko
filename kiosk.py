@@ -30,7 +30,8 @@ class Kiosk:
                 s.connect((HOST, PORT))
                 s.sendall(str.encode(text_to_send))
                 data = s.recv(1024)
-        except:
+        except Exception as e: 
+            print(e)
             print("Error sending card data to display")
 
 if __name__ == "__main__":
