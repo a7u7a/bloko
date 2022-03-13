@@ -24,7 +24,7 @@ class Kiosk:
 
     def send_text_interruption(self):
         text_to_send = self.card_text.upper().replace("?", "")
-        print(text_to_send)
+        print("Sending card data to display:",text_to_send)
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect((HOST, PORT))
