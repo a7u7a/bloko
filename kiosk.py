@@ -30,6 +30,7 @@ class Kiosk:
                 s.connect((HOST, PORT))
                 s.sendall(str.encode(text_to_send))
                 data = s.recv(1024)
+                self.card_text = ''
         except:
             print("Error sending card data to display")
 
