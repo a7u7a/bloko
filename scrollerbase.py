@@ -87,16 +87,16 @@ class Scroller(SampleBase):
         reps = 0
         while (space_avail - min_margin) > txt_w:
             reps += 1
-            space_avail = space_avail/2
+            space_avail = space_avail - (txt_w + min_margin)
         return reps
     
     # 487 1536
     def print_reps(self, reps, txt_w):
         space_avail = self.matrix.width - txt_w
-        increment = math.floor(space_avail/(reps+1)) + txt_w
+        increment = math.floor(space_avail / (reps + 1)) + txt_w
         anchor = increment
         print("increment", increment)
-        for rep in range(0,reps):
+        for rep in range(0, reps):
             print("printing rep:", rep, "at anchor:", anchor)
             graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
             anchor += increment
