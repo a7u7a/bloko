@@ -71,7 +71,7 @@ class Scroller(SampleBase):
             # draw init text
             txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
             reps = self.get_reps(txt_w)
-            print("reps", reps)
+            print("reps:", reps, "text width:",txt_w)
             if reps > 1:
                 self.print_reps(reps, txt_w)
             else:
