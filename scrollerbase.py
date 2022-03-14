@@ -90,32 +90,17 @@ class Scroller(SampleBase):
             reps += 1
             space_avail = space_avail/2
         return reps
-
+    
+    # 487 1536
     def print_reps(self, reps, txt_w):
         space_avail = self.matrix.width - txt_w
         increment = (space_avail/reps) + txt_w
         anchor = increment
+        print("increment", increment)
         for rep in range(0,reps):
-            print("rep", rep)
+            print("printing rep:", rep, "at anchor:", anchor)
             graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
             anchor += increment
-
-    # how many copies
-    def get_repetition_count(self, txt_width):
-        count = 0
-        min_total_margin = 500
-        total_text_width = txt_width * count
-        total_margin = self.matrix.width - total_text_width
-        while total_margin > min_total_margin:
-            total_text_width = txt_width * count
-            total_margin = self.matrix.width - total_text_width
-            count += 1
-
-        # serve at least one
-        if count == 0:
-            count = 1
-
-        return {count: count, total_margin: total_margin}
 
     def sleep_once(self, t):
         if self.sleep_once_flag:
