@@ -85,7 +85,7 @@ class Scroller(SampleBase):
         space_avail = self.matrix.width - txt_w 
         min_margin = 10
         reps = 0
-        while (space_avail - min_margin) > txt_w:
+        while space_avail > (txt_w + min_margin):
             reps += 1
             space_avail = space_avail - (txt_w + min_margin)
         return reps
