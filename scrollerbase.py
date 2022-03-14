@@ -1,4 +1,3 @@
-from email.mime import base
 import sys
 import os
 from time import sleep
@@ -94,7 +93,7 @@ class Scroller(SampleBase):
     # 487 1536
     def print_reps(self, reps, txt_w):
         space_avail = self.matrix.width - txt_w
-        increment = math.floor(space_avail/reps) + txt_w
+        increment = math.floor(space_avail/reps+1) + txt_w
         anchor = increment
         print("increment", increment)
         for rep in range(0,reps):
