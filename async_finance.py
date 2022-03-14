@@ -41,9 +41,8 @@ class Finance(object):
             data = {}
             try:
                 for r in results:
-                    if r:
-                        print("r",r)
-                        data[r[0]] = r[1]
+                    print("r",r)
+                    data[r[0]] = r[1]
                 self.save_file(data)
                 print("Updated stock_data.json at", datetime.now())
             except Exception as e: 
