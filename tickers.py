@@ -121,7 +121,7 @@ class TickerData(object):
                 "image_path": "./images/shell.ppm"
             },
             {
-                "name":"SMSN.IL",
+                "name":"SSNLF",
                 "image_path": "./images/samsung.ppm"
             },
 
