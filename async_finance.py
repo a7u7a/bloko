@@ -40,7 +40,7 @@ class Finance(object):
                 results = pool.map(self.get_stocks_data, stocks)
             data = {}
             try:
-                print("results:", results
+                print("results:", results)
                 for r in results:
                     print("r",r)
                     data[r[0]] = r[1]
