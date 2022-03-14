@@ -124,7 +124,6 @@ class TickerData(object):
                 "name":"SSNLF",
                 "image_path": "./images/samsung.ppm"
             },
-
             {
                 "name":"TM",
                 "image_path": "./images/toyota.ppm"
