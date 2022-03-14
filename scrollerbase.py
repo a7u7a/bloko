@@ -85,7 +85,7 @@ class Scroller(SampleBase):
     def get_reps(self, txt_w):
         space_avail = self.matrix.width - txt_w 
         min_margin = 10
-        reps = 1
+        reps = 0
         while (space_avail - min_margin) > txt_w:
             reps += 1
             space_avail = space_avail/2
@@ -94,7 +94,7 @@ class Scroller(SampleBase):
     # 487 1536
     def print_reps(self, reps, txt_w):
         space_avail = self.matrix.width - txt_w
-        increment = (space_avail/reps) + txt_w
+        increment = (space_avail/reps+1) + txt_w
         anchor = increment
         print("increment", increment)
         for rep in range(0,reps):
