@@ -42,7 +42,7 @@ class Finance(object):
             try:
                 print("results:", results)
                 for r in results:
-                    print("r",r)
+                    # print("r",r)
                     data[r[0]] = r[1]
                 self.save_file(data)
                 print("Updated stock_data.json at", datetime.now())
