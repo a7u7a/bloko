@@ -40,13 +40,14 @@ class Finance(object):
                 results = pool.map(self.get_stocks_data, stocks)
             data = {}
             try:
-                print("results:", results)
                 for r in results:
                     # print("r",r)
                     data[r[0]] = r[1]
-                self.save_file(data)
-                print("Updated stock_data.json at", datetime.now())
+                try:
+                    self.save_file(data)
+                    print("Updated stock_data.json at", datetime.now())
+                except Exception as e: 
+                    print("Error while saving stock data to file:", e)
             except Exception as e: 
-                print("ERROR async_finance.py:", e)
-                print("Error getting ticker data from the internet. Maybe no connection?")
+                print("ERROR async_finance.py, problem getting data from Yahoo Finance:", e)
             time.sleep(30) # sleep for 1 minutes 
