@@ -25,7 +25,8 @@ class Finance(object):
                 data['regularMarketVolume'] = res['regularMarketVolume']
                 data['regularMarketChangePercent'] = res['regularMarketChangePercent']
                 return [symbol, data]
-        except:
+        except Exception as e:
+            print("error on get_stocks_data:",e)
             # bad url, socket timeout, http forbidden, etc.
             return None
 
@@ -47,7 +48,7 @@ class Finance(object):
                     self.save_file(data)
                     print("Updated stock_data.json at", datetime.now())
                 except Exception as e: 
-                    print("Error while saving stock data to file:", e)
+                    print("Error while saving stock data to file:", e)  
             except Exception as e: 
                 print("ERROR async_finance.py, problem getting data from Yahoo Finance:", e)
             time.sleep(30) # sleep for 1 minutes 
