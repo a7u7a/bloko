@@ -1,4 +1,3 @@
-from email.mime import base
 import sys
 import os
 from time import sleep
@@ -71,7 +70,7 @@ class Scroller(SampleBase):
             # draw init text
             txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
             reps = self.get_reps(txt_w)
-            print("reps", reps)
+            print("reps:", reps, "text width:",txt_w, "screen width:", self.matrix.width)
             if reps > 1:
                 self.print_reps(reps, txt_w)
             else:
@@ -86,36 +85,21 @@ class Scroller(SampleBase):
         space_avail = self.matrix.width - txt_w 
         min_margin = 10
         reps = 0
-        while (space_avail - min_margin) > txt_w:
+        while space_avail > (txt_w + min_margin):
             reps += 1
-            space_avail = space_avail/2
+            space_avail = space_avail - (txt_w + min_margin)
         return reps
-
+    
+    # 487 1536
     def print_reps(self, reps, txt_w):
-        space_avail = self.matrix.width - txt_w
-        increment = (space_avail/reps) + txt_w
+        #space_avail = self.matrix.width - txt_w
+        increment = math.floor(self.matrix.width / (reps + 1))
         anchor = increment
-        for rep in range(0,reps):
-            print("rep", rep)
+        print("increment", increment)
+        for rep in range(0, reps):
+            print("printing rep:", rep, "at anchor:", anchor)
             graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
             anchor += increment
-
-    # how many copies
-    def get_repetition_count(self, txt_width):
-        count = 0
-        min_total_margin = 500
-        total_text_width = txt_width * count
-        total_margin = self.matrix.width - total_text_width
-        while total_margin > min_total_margin:
-            total_text_width = txt_width * count
-            total_margin = self.matrix.width - total_text_width
-            count += 1
-
-        # serve at least one
-        if count == 0:
-            count = 1
-
-        return {count: count, total_margin: total_margin}
 
     def sleep_once(self, t):
         if self.sleep_once_flag:
@@ -146,12 +130,12 @@ class Scroller(SampleBase):
                     self.stock_data = json.load(json_file)
                     print("Updated stock data OK")
             except Exception as e: 
-                print(e)
+                print("ERROR load_stocks:",e)
                 print("Error updating stock data")
                 self.stock_data = None
 
     def get_ticker_fields_from_data(self, name):
-        temp_text = "wait"
+        temp_text = "loading"
         try:
             ticker_data = self.stock_data[name]
             volume = str(ticker_data["regularMarketVolume"]["fmt"])
@@ -159,7 +143,7 @@ class Scroller(SampleBase):
             change = str(ticker_data["regularMarketChangePercent"]["fmt"])
             change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])  
         except Exception as e: 
-            print(e)
+            print("ERROR: get_ticker_fields_from_data: ",e)
             volume = temp_text
             price = temp_text
             change = temp_text

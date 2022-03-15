@@ -23,7 +23,12 @@ class Kiosk:
             self.card_text = ''
 
     def send_text_interruption(self):
-        text_to_send = self.card_text.upper().replace("?", "")
+        # format string before sending
+        unwanted_chars = ["?", "/", "5"]
+        text_to_send = self.card_text
+        for item in unwanted_chars:
+            text_to_send = text_to_send.replace(item, "")
+        text_to_send = text_to_send.upper()
         print("Sending card data to display:",text_to_send)
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -31,7 +36,8 @@ class Kiosk:
                 s.sendall(str.encode(text_to_send))
                 data = s.recv(1024)
                 self.card_text = ''
-        except:
+        except Exception as e: 
+            print("ERROR: kiosk.py, send_text_interruption():",e)
             print("Error sending card data to display")
 
 if __name__ == "__main__":
