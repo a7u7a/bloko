@@ -130,12 +130,12 @@ class Scroller(SampleBase):
                     self.stock_data = json.load(json_file)
                     print("Updated stock data OK")
             except Exception as e: 
-                print(e)
+                print("ERROR load_stocks:",e)
                 print("Error updating stock data")
                 self.stock_data = None
 
     def get_ticker_fields_from_data(self, name):
-        temp_text = "wait"
+        temp_text = "loading"
         try:
             ticker_data = self.stock_data[name]
             volume = str(ticker_data["regularMarketVolume"]["fmt"])
@@ -143,7 +143,7 @@ class Scroller(SampleBase):
             change = str(ticker_data["regularMarketChangePercent"]["fmt"])
             change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])  
         except Exception as e: 
-            print(e)
+            print("ERROR: get_ticker_fields_from_data: ",e)
             volume = temp_text
             price = temp_text
             change = temp_text
