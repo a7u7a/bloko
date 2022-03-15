@@ -12,7 +12,7 @@
 ### Test card interruption without kiosk
 - Run `python interrupt_test.py`
 
-### Autostart setup
+### Autostart setup: Scroller Ticker display
 - Shh into the pi: `$ ssh pi@raspberrypi.local`
 - Create unit file: `$ sudo nano /lib/systemd/system/bloko.service`
 - Add this to the file: 
@@ -31,7 +31,30 @@ WantedBy=multi-user.target
 - Reload daemons: `$ sudo systemctl daemon-reload`
 - Enable service on boot: `$ sudo systemctl enable bloko.service`
 - Reboot: `$ sudo reboot`
-- Check that daemon is running: `$ systemctl status bloko.service`
+
+### Autostart setup: Swiper Kiosk
+- Shh into the pi: `$ ssh pi@raspberrypi.local`
+- Create unit file: `$ sudo nano /lib/systemd/system/bloko_swiper.service`
+- Add this to the file: 
+```
+[Unit]
+Description=Bloko ticker display daemon
+After=multi-user.target
+
+[Service]
+WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
+ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/kiosk.py
+
+[Install]
+WantedBy=multi-user.target
+```
+- Reload daemons: `$ sudo systemctl daemon-reload`
+- Enable service on boot: `$ sudo systemctl enable bloko_swiper.service`
+- Reboot: `$ sudo reboot`
+
+
+### Check that daemon is running: 
+- Run: `$ systemctl status bloko.service`
 - Output should be like: 
 ```
 pi@raspberrypi:~ $ systemctl status bloko.service
