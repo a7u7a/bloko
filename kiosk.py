@@ -29,7 +29,6 @@ class Kiosk:
         for item in unwanted_chars:
             text_to_send = text_to_send.replace(item, "")
         text_to_send = text_to_send.upper()
-        
         print("Sending card data to display:",text_to_send)
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
