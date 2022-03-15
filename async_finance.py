@@ -19,8 +19,8 @@ class Finance(object):
         try:
             url = 'https://query1.finance.yahoo.com/v10/finance/quoteSummary/{symbol}?modules=price'.format(symbol=symbol)
             data = {}
+            ssl._create_default_https_context = ssl._create_unverified_context
             with urlopen(url, timeout=10) as connection:
-                ssl._create_default_https_context = ssl._create_unverified_context
                 res = json.loads(connection.read())['quoteSummary']['result'][0]['price']
                 data["regularMarketPrice"] = res['regularMarketPrice']
                 data['regularMarketVolume'] = res['regularMarketVolume']
