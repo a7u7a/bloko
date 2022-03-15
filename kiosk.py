@@ -38,7 +38,7 @@ class Kiosk:
                 data = s.recv(1024)
                 self.card_text = ''
         except Exception as e: 
-            print(e)
+            print("ERROR: kiosk.py, send_text_interruption():",e)
             print("Error sending card data to display")
 
 if __name__ == "__main__":
