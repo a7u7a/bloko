@@ -60,7 +60,7 @@ Description=Bloko ticker display daemon
 After=multi-user.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/bloko/kiosk.py
+ExecStart=/usr/bin/python3 /home/pi/bloko/kiosk.py
 
 [Install]
 WantedBy=multi-user.target
