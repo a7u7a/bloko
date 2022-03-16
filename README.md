@@ -3,6 +3,8 @@
 ### Install
 - This software is meant to run on a Raspberry Pi running Raspberry Pi OS. Tested on Raspberry Pi OS Lite Kernel version: 5.10, Debian version: 11 (bullseye)
 - Requires Python version 3.7 at least, tested on 3.9
+- Requires internet connection in order to update ticker values
+- Connects to Yahoo Finance web API. No `yfinance` module required
 - For the ticker display: 
   - You must first install this: https://github.com/hzeller/rpi-rgb-led-matrix
   - Make sure Python 3 bindings are correctly installed by running some samples 
