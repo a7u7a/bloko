@@ -17,7 +17,10 @@
 - Run `chmod -R 777 ./` to give folder privileges and avoid permission errors using while using `sudo`.
 
 ### Start ticker scroller
-- Run with sudo `sudo python app.py --led-cols=64`
+- Run using sudo (required by `rpi-rgb-led-matrix python` bindings)
+```
+sudo python app.py app.py --led-cols=768 --led-slowdown-gpio=5 --led-gpio-mapping=regular  --led-rows=32 --led-chain=1 --led-pixel-mapper=V-mapper  --led-parallel=2 --led-brightness=70
+```
 
 ### Start card swiper kiosk
 - Run `sudo python kiosk.py`
