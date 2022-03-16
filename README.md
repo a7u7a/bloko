@@ -58,8 +58,7 @@ Description=Bloko ticker display daemon
 After=multi-user.target
 
 [Service]
-WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/kiosk.py
+ExecStart=/usr/bin/python3 /home/bloko/kiosk.py
 
 [Install]
 WantedBy=multi-user.target
