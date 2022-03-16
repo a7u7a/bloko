@@ -23,7 +23,7 @@ sudo python app.py app.py --led-cols=768 --led-slowdown-gpio=5 --led-gpio-mappin
 ```
 
 ### Start card swiper kiosk
-- Run `sudo python kiosk.py`
+- Also needs to run with sudo, required by the `keyboard` module: `sudo python kiosk.py`
 
 ### Test card interruption without kiosk
 - Run `python interrupt_test.py`
