@@ -1,4 +1,17 @@
-# bloko
+# Bloko's ticker display
+
+### Install
+- This software is meant to run on a Raspberry Pi running Raspberry Pi OS. Tested on Raspberry Pi OS Lite Kernel version: 5.10, Debian version: 11 (bullseye)
+- Requires Python 3.7
+- For the ticker display: 
+  - You must first install this: https://github.com/hzeller/rpi-rgb-led-matrix
+  - Make sure Python 3 bindings are correctly installed by running some samples 
+  - Then clone this repo inside bindings/python/samples folder
+  - Only then you should attempt running the ticker
+- For the swiper:
+  - Simply clone this repo inside the home directory
+  - You will need a card reader that is compatible with the keyboard module: https://pypi.org/project/keyboard/
+
 
 ### Setup
 - Run `chmod -R 777 ./` to give folder privileges and avoid permission errors using while using `sudo`.

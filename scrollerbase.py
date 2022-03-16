@@ -136,18 +136,20 @@ class Scroller(SampleBase):
 
     def get_ticker_fields_from_data(self, name):
         temp_text = "loading"
+        price = temp_text
+        change = temp_text
+        change_raw = 0
         if self.stock_data is not None:
-            ticker_data = self.stock_data[name]
-            volume = str(ticker_data["regularMarketVolume"]["fmt"])
-            price = str(ticker_data["regularMarketPrice"]["fmt"])
-            change = str(ticker_data["regularMarketChangePercent"]["fmt"])
-            change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])
+            try:
+                ticker_data = self.stock_data[name]
+                price = str(ticker_data["regularMarketPrice"]["fmt"])
+                change = str(ticker_data["regularMarketChangePercent"]["fmt"])
+                change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])
+            except Exception as e:
+                print("Error at scrollerbase get_ticker_fields_from_data():", e)
         else:
             print("No ticker data yet. Maybe stocks file is loading..")
-            volume = temp_text
-            price = temp_text
-            change = temp_text
-            change_raw = 0
+            
         return [price, change, change_raw]
 
     def update_tickers(self):
