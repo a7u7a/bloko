@@ -2,7 +2,7 @@
 
 ### Install
 - This software is meant to run on a Raspberry Pi running Raspberry Pi OS. Tested on Raspberry Pi OS Lite Kernel version: 5.10, Debian version: 11 (bullseye)
-- Requires Python 3.7
+- Requires at least Python 3.7
 - For the ticker display: 
   - You must first install this: https://github.com/hzeller/rpi-rgb-led-matrix
   - Make sure Python 3 bindings are correctly installed by running some samples 
