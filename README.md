@@ -1,4 +1,9 @@
-# Bloko's ticker display
+# Bloko's ticker scroller display
+
+- This software was developed for my friend Ignacio Gatica's art project called "Stones Above Diamonds"
+- It's job is to control an LED display, similar to the ones seen on financial districts. Here is a picture of it in action at [Hessel Museum of Art](https://ccs.bard.edu/museum):
+![Stones Above Diamonds by Ignacio Gatica](expo.jpeg)
+
 
 ### Install
 - This software is meant to run on a Raspberry Pi running Raspberry Pi OS. Tested on Raspberry Pi OS Lite Kernel version: 5.10, Debian version: 11 (bullseye)
@@ -18,8 +23,11 @@
 ### Setup
 - Run `chmod -R 777 ./` to give folder privileges and avoid permission errors using while using `sudo`.
 
+### Test the ticker 
+- Most basic command to test ticker on a 1x2 arrangement of 32x32 pixel: `sudo python app.py --led-cols=64`
+
 ### Start ticker scroller
-- Run using sudo (required by `rpi-rgb-led-matrix python` bindings)
+- Run using sudo (required by `rpi-rgb-led-matrix` python bindings)
 ```
 sudo python app.py app.py --led-cols=768 --led-slowdown-gpio=5 --led-gpio-mapping=regular  --led-rows=32 --led-chain=1 --led-pixel-mapper=V-mapper  --led-parallel=2 --led-brightness=70
 ```
@@ -89,3 +97,5 @@ Mar 05 00:13:24 raspberrypi python3[955]: Suggestion: to slightly improve displa
 Mar 05 00:13:24 raspberrypi python3[955]:         isolcpus=3
 Mar 05 00:13:24 raspberrypi python3[955]: at the end of /boot/cmdline.txt and reboot (see README.md)
 ```
+### Stop daemon
+- Run `$ service bloko stop`
