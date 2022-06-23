@@ -15,8 +15,8 @@
 - For the ticker display: 
   - You must first install this: https://github.com/hzeller/rpi-rgb-led-matrix
   - Make sure Python 3 bindings are correctly installed by running some samples 
-  - Then clone this repo inside bindings/python/samples folder
-  - Only then you should attempt running the ticker
+  - Then clone this repo inside `bindings/python/samples` folder
+  - Only then you should try to run the ticker
 - For the swiper:
   - Simply clone this repo inside the home directory
   - You will need a card reader that is compatible with the keyboard module: https://pypi.org/project/keyboard/

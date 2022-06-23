@@ -7,7 +7,10 @@ from urllib.request import urlopen
 from tickers import TickerData
 import ssl
 
+
+
 class Finance(object):
+    """Object dedicated to update the stocks_data.json file with fresh numbers from the API"""
     def __init__(self):
         self.tickerData = TickerData()
         self.thread = Thread(target=self.run_yfinance)
