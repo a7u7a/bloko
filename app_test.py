@@ -34,57 +34,79 @@ def read_gdp_file():
     f.close()
     return gdp_data
 
+def get_country_list(debt_preds_data):
+    # assumes items have been sorted beforehand
+    latest_item = list(debt_preds_data.keys())[0]
+    return list(debt_preds_data[latest_item].keys())
 
+def get_date_range(now, dates_in_data):
+    """Returns the date range within the provided date ranges('dates_in_data') with respect to 'now '
+    For instance: if now: 2022-6-2 then ranges should be min_date: 2022-1-1, max_date: 2023-1-1. As long as these dates can be found in the data."""
+    before = []
+    after = []
+    for d in dates_in_data:
+        current_date = int(d)
+        if current_date > now:
+            after.append(current_date)
+        if current_date < now:
+            before.append(current_date)
+
+    if after:
+        max_date = min(after)
+    else:
+        max_date = None
+
+    if before:
+        min_date = max(before)
+    else: 
+        min_date = None
+
+    return (min_date, max_date)
+
+def get_gdp(country_name):
+    time_key = list(gdp_data.keys())[0]
+    return gdp_data[time_key][country_name]
+
+
+
+# get data
 debt_preds_data = read_forecast_file()
 gdp_data = read_gdp_file()
 
-# get current time
-now = math.floor(time.time()*1000) # epoch
+countries = get_country_list(debt_preds_data)
 dates_in_data = debt_preds_data.keys()
 
-country_name = "St. Vincent and the Grenadines"
+for country_name in countries:
 
-# get data ranges
-before = []
-after = []
-for d in dates_in_data:
-    current_date = int(d)
-    if current_date > now:
-        after.append(current_date)
-    if current_date < now:
-        before.append(current_date)
+    # get current time
+    now = math.floor(time.time()*1000) # epoch
 
-if after:
-    max_date = min(after)
-else:
-    max_date = None
+    min_date, max_date = get_date_range(now, dates_in_data)
 
-if before:
-    min_date = max(before)
-else: 
-    min_date = None
+    # handle case where now is outside range of available dates
 
-# make it so that if now is after max available date it will only displat latest value in dataset
+    if min_date and max_date:
+        min_date_debt = debt_preds_data[str(min_date)][country_name]
+        max_date_debt = debt_preds_data[str(max_date)][country_name]
+        
+        # print("country",country_name)
+        # print("now",epoch_to_datetime(now))
+        # print("min_date",epoch_to_datetime(min_date))
+        # print("max_date",epoch_to_datetime(max_date))
+        # print("min_date_debt",min_date_debt)
+        # print("max_date_debt",max_date_debt)
 
-if min_date and max_date:
-    min_date_val = debt_preds_data[str(min_date)][country_name]
-    max_date_val = debt_preds_data[str(max_date)][country_name]
-    print("country",country_name)
-    print("now",epoch_to_datetime(now))
-    print("min_date",epoch_to_datetime(min_date))
-    print("max_date",epoch_to_datetime(max_date))
-    print("min_date_val",min_date_val)
-    print("max_date_val",max_date_val)
-
-    # now we interpolate
-    interpolated_debt = interpolate_vals(now, min_date, min_date_val,max_date, max_date_val)
-    print("interpolated", interpolated_debt)
-    time_key = list(gdp_data.keys())[0]
-    gdp = gdp_data[time_key][country_name]
-    print("gdp", gdp)
-    # how many times larger is the debt with respect to the gdp
-    print("GDP %", (interpolated_debt/gdp)*100)
-else:
-    print("No data available in debt_predictions.json that matches the current time.")
+        # now we interpolate
+        debt_now = interpolate_vals(now, min_date, min_date_debt, max_date, max_date_debt)
+        # print("interpolated", debt_now)
+        
+        gdp = get_gdp(country_name)
+        # how many times larger is the debt with respect to the gdp
+        gdp_perc = (debt_now/gdp)*100
+        # print("gdp", gdp)
+        
+        print(country_name, "debt now: $"+ str(debt_now),"GDP%:",gdp_perc )
+    else:
+        print("No data available in debt_predictions.json that matches the current time.")
 
 

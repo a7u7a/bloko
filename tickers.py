@@ -6,151 +6,151 @@ class TickerData(object):
         "tickers": [
             {
                 "name":"TSLA",
-                "image_path": "./images/tesla.ppm"
+                "image_path": "./images/tickers/tesla.ppm"
             },
             {
                 "name":"MSFT",
-                "image_path": "./images/microsoft.ppm"
+                "image_path": "./images/tickers/microsoft.ppm"
             },
             {
                 "name":"AMZN",
-                "image_path": "./images/amazon.ppm"
+                "image_path": "./images/tickers/amazon.ppm"
             },
             {
                 "name":"BTC-USD",
-                "image_path": "./images/bitcoin.ppm"
+                "image_path": "./images/tickers/bitcoin.ppm"
             },
             {
                 "name":"BP",
-                "image_path": "./images/bp.ppm"
+                "image_path": "./images/tickers/bp.ppm"
             },
             {
                 "name":"AAPL",
-                "image_path": "./images/apple.ppm"
+                "image_path": "./images/tickers/apple.ppm"
             },
             {
                 "name":"ABT",
-                "image_path": "./images/abbott.ppm"
+                "image_path": "./images/tickers/abbott.ppm"
             },
             {
                 "name":"ACN",
-                "image_path": "./images/accenture.ppm"
+                "image_path": "./images/tickers/accenture.ppm"
             },
             {
                 "name":"ADBE",
-                "image_path": "./images/adobe.ppm"
+                "image_path": "./images/tickers/adobe.ppm"
             },          
             {
                 "name":"ASML",
-                "image_path": "./images/asml.ppm"
+                "image_path": "./images/tickers/asml.ppm"
             },
             {
                 "name":"AVGO",
-                "image_path": "./images/broadcom.ppm"
+                "image_path": "./images/tickers/broadcom.ppm"
             },
             {
                 "name":"CMCSA",
-                "image_path": "./images/comcast.ppm"
+                "image_path": "./images/tickers/comcast.ppm"
             },     
             {
                 "name":"COST",
-                "image_path": "./images/cosco.ppm"
+                "image_path": "./images/tickers/cosco.ppm"
             }, 
             {
                 "name":"CSCO",
-                "image_path": "./images/cisco.ppm"
+                "image_path": "./images/tickers/cisco.ppm"
             },
             {
                 "name":"CVX",
-                "image_path": "./images/chevron.ppm"
+                "image_path": "./images/tickers/chevron.ppm"
             },
             {
                 "name":"DIS",
-                "image_path": "./images/disney.ppm"
+                "image_path": "./images/tickers/disney.ppm"
             },                
             {
                 "name":"FB",
-                "image_path": "./images/meta.ppm"
+                "image_path": "./images/tickers/meta.ppm"
             },
             {
                 "name":"GOOGL",
-                "image_path": "./images/google.ppm"
+                "image_path": "./images/tickers/google.ppm"
             },          
             {
                 "name":"HD",
-                "image_path": "./images/homedepot.ppm"
+                "image_path": "./images/tickers/homedepot.ppm"
             },
             {
                 "name":"JNJ",
-                "image_path": "./images/jhonson.ppm"
+                "image_path": "./images/tickers/jhonson.ppm"
             },
             {
                 "name":"JPM",
-                "image_path": "./images/chase.ppm"
+                "image_path": "./images/tickers/chase.ppm"
             },
             {
                 "name":"KO",
-                "image_path": "./images/coca.ppm"
+                "image_path": "./images/tickers/coca.ppm"
             },
             {
                 "name":"MA",
-                "image_path": "./images/mastercard.ppm"
+                "image_path": "./images/tickers/mastercard.ppm"
             },
             {
                 "name":"NKE",
-                "image_path": "./images/nike.ppm"
+                "image_path": "./images/tickers/nike.ppm"
             },
             {
                 "name":"NVDA",
-                "image_path": "./images/nvidia.ppm"
+                "image_path": "./images/tickers/nvidia.ppm"
             },
             {
                 "name":"PEP",
-                "image_path": "./images/pepsi.ppm"
+                "image_path": "./images/tickers/pepsi.ppm"
             },
             {
                 "name":"PFE",
-                "image_path": "./images/pfizer.ppm"
+                "image_path": "./images/tickers/pfizer.ppm"
             },
             {
                 "name":"PRDSY",
-                "image_path": "./images/prada.ppm"
+                "image_path": "./images/tickers/prada.ppm"
             },                
             {
                 "name":"SHEL",
-                "image_path": "./images/shell.ppm"
+                "image_path": "./images/tickers/shell.ppm"
             },
             {
                 "name":"SSNLF",
-                "image_path": "./images/samsung.ppm"
+                "image_path": "./images/tickers/samsung.ppm"
             },
             {
                 "name":"TM",
-                "image_path": "./images/toyota.ppm"
+                "image_path": "./images/tickers/toyota.ppm"
             },
             {
                 "name":"V",
-                "image_path": "./images/visa.ppm"
+                "image_path": "./images/tickers/visa.ppm"
             },
             {
                 "name":"VZ",
-                "image_path": "./images/verizon.ppm"
+                "image_path": "./images/tickers/verizon.ppm"
             },
             {
                 "name":"WMT",
-                "image_path": "./images/wallmart.ppm"
+                "image_path": "./images/tickers/wallmart.ppm"
             },
             {
                 "name":"XOM",
-                "image_path": "./images/exxon.ppm"
+                "image_path": "./images/tickers/exxon.ppm"
             },
             {
                 "name":"UNH",
-                "image_path": "./images/uhg.ppm"
+                "image_path": "./images/tickers/uhg.ppm"
             },
             {
                 "name":"BAC",
-                "image_path": "./images/bankofamerica.ppm"
+                "image_path": "./images/tickers/bankofamerica.ppm"
             }                             
         ]
         }"""

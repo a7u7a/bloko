@@ -1,5 +1,9 @@
 **Development branch for the international debt project**
 
+- Notes: in order for this to work both `debt_predictions.json` and `gdp.json` must be compatible by having the same countries and matching dates. Both `.json` files were generated using [this](https://github.com/a7u7a/blokis-intl-debt)
+- Debt scroller app is run with: `sudo python debt_app.py --led-cols=64`
+
+
 # Bloko's ticker scroller display
 
 - This software was developed for my friend Ignacio Gatica's art project called "Stones Above Diamonds"
