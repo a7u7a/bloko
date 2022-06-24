@@ -24,7 +24,6 @@ class Ticker:
     code: str
     pos: str = 0
     width: int = 0
-    
 
 class DebtScroller(SampleBase):
     def __init__(self):
@@ -41,13 +40,24 @@ class DebtScroller(SampleBase):
         self.font.LoadFont("../../../../fonts/7x13.bdf")
         self.interrupt_font.LoadFont("./fonts/helvB18.bdf")
 
+    def filter_countries(self,countries):
+        # get available countries in dataset
+        # assumes dataset items have been sorted beforehand
+        latest_item = list(self.debt_preds_data.keys())[0]
+        avail_countries = list(self.debt_preds_data[latest_item].keys())
+        filtered = []
+        for c in countries:
+            if c["name"] in avail_countries:
+                filtered.append(c)
+        return filtered
+
     def run(self):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
         self.tickers = CountryData().countries
-        print("self.tickers",self.tickers)
+        # filter to make sure countries in tickers are available in dataset
+        self.tickers = self.filter_countries(self.tickers)
         self.images = self.load_imgs()
-        self.arrow_up = Image.open("./images/symbols/arrow_green.ppm").convert('RGB')
-        self.arrow_down = Image.open("./images/symbols/arrow_red.ppm").convert('RGB')
+        
         self.active_tickers = [self.new_ticker(0)]
         self.init_fonts()
         self.init_colors()
@@ -117,7 +127,7 @@ class DebtScroller(SampleBase):
         img_dict = {}
         for t in self.tickers:
             image = Image.open(t["image_path"]).convert('RGB')
-            t_name = t["name"]
+            t_name = t["name"] # should use country code here
             img_dict[t_name] = image
         return img_dict
 
@@ -132,117 +142,92 @@ class DebtScroller(SampleBase):
         self.sleep_once_flag = True
         self.clear_buffer_flag = True
 
-    def load_stocks(self):
-            try:
-                with open('stock_data.json') as json_file:
-                    self.stock_data = json.load(json_file)
-                    print("Updated stock data OK")
-            except Exception as e: 
-                print("ERROR load_stocks:",e)
-                print("Error updating stock data")
-                self.stock_data = None
+    def get_country_debt_and_gdp(self, country_name):
+        now = math.floor(time.time()*1000) # epoch
+        min_date, max_date = get_date_range(now, self.dates_in_data)
 
-    def get_ticker_fields_from_data(self, name):
-        temp_text = "loading"
-        price = temp_text
-        change = temp_text
-        change_raw = 0
-        if self.stock_data is not None:
-            try:
-                ticker_data = self.stock_data[name]
-                price = str(ticker_data["regularMarketPrice"]["fmt"])
-                change = str(ticker_data["regularMarketChangePercent"]["fmt"])
-                change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])
-            except Exception as e:
-                print("Error at scrollerbase get_ticker_fields_from_data():", e)
-        else:
-            print("No ticker data yet. Stocks may still file is loading..")
+        if min_date and max_date:
+            min_date_debt = self.debt_preds_data[str(min_date)][country_name]
+            max_date_debt = self.debt_preds_data[str(max_date)][country_name]
             
-        return [price, change, change_raw]
-
-
-    def get_country_debt_and_gdp(self):
-        print("wip")
-
+            # get debt for current time and gdp
+            debt_now = interpolate_vals(now, min_date, min_date_debt, max_date, max_date_debt)    
+            gdp = get_gdp(country_name, self.gdp_data)
+            
+            return (debt_now, gdp)
+        else:
+            print("No data available in debt_predictions.json that matches the current time.")
 
     def update_tickers(self):
         self.frame_buffer.Clear()
         for ticker in self.active_tickers:
-            print(ticker)
             # get data
             t_name = ticker.name
+            t_code = ticker.code
             t_pos = ticker.pos
             t_image = self.images[t_name]
             img_w, img_h = t_image.size
 
             ########### MAKE THIS A FUNCTION
-            # here we fetch values from cached api calls
-            # and draw the arrows
     
-        #     price, change, change_raw = self.get_ticker_fields_from_data(ticker.name)
-        #     debt, gdp = self.get_country_debt_and_gdp()
-
-        #     # compose frame
-        #     self.frame_buffer.SetImage(t_image, t_pos)
-        #     # print("change_raw",change_raw)
-        #     if change_raw > 0:
-        #         arrow = self.arrow_up
-        #         change_color = self.up_color
-        #     else:
-        #         arrow = self.arrow_down
-        #         change_color = self.down_color
-
-        #     arrow_w, arrow_h = arrow.size
-        #     base_margin = 4
-        #     first_line_h = 15
-        #     second_line_h = 26
-        #     arrow_pos_h = 21
-        #     left_margin = 4
-        #     right_margin = 12
-        #     text_base_pos = t_pos + img_w + left_margin
-        #     title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_name)
-        #     price_pos = text_base_pos
-        #     price_w = graphics.DrawText(self.frame_buffer, self.font, price_pos, second_line_h, self.up_color, price)
-        #     arrow_pos = price_pos + base_margin + price_w
-        #     # if change_raw != 0: # no arrow when change is zero
-        #     self.frame_buffer.SetImage(arrow, arrow_pos, arrow_pos_h)
-        #     change_pos = arrow_pos + arrow_w + base_margin
-        #     change_w = graphics.DrawText(self.frame_buffer, self.font, change_pos, second_line_h, change_color, change)
-        #     line_top_w = title_w
-        #     line_bottom_w = price_w + base_margin + arrow_w + base_margin + change_w
-        #     if line_top_w > line_bottom_w:
-        #         txt_w = line_top_w + right_margin
-        #     else:
-        #         txt_w = line_bottom_w + right_margin
-        #     ###########
-
-        #     # update ticker
-        #     # removes ticker when it has moved offscreen
-        #     offscreen_margin = 500
-        #     if t_pos + offscreen_margin + ticker.width == 0:
-        #         self.active_tickers.remove(ticker)
+            # get proyected debt and gdp for current country in the scroller
+            debt, gdp = self.get_country_debt_and_gdp(t_name)
+            gdp_perc = (debt/gdp)*100
             
+            # format strings
+            debt_str = "${:,.2f}".format(debt)
+            gdp_str = "%" + str(truncate(gdp_perc))
+            
+            # compose frame
+            self.frame_buffer.SetImage(t_image, t_pos)
+            base_margin = 4
+            first_line_h = 15
+            second_line_h = 26
+            left_margin = 4
+            right_margin = 12
+            text_base_pos = t_pos + img_w + left_margin
+            title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_code)
+            debt_pos = text_base_pos
+            debt_w = graphics.DrawText(self.frame_buffer, self.font, debt_pos, second_line_h, self.up_color, debt_str)
+            gdp_pos = debt_pos + base_margin + debt_w + base_margin 
+            gdp_w = graphics.DrawText(self.frame_buffer, self.font, gdp_pos, second_line_h, self.down_color, gdp_str)
+            line_top_w = title_w
+            line_bottom_w = debt_w + base_margin + base_margin + gdp_w
+            if line_top_w > line_bottom_w:
+                txt_w = line_top_w + right_margin
+            else:
+                txt_w = line_bottom_w + right_margin
+            
+            ###########
+            # update ticker
+            # removes ticker when it has moved offscreen
+            offscreen_margin = 500
+            if t_pos + offscreen_margin + ticker.width == 0:
+                self.active_tickers.remove(ticker)
            
-        #     ticker.width = img_w + txt_w
-        #     # Adds a new ticker to active_tickers when right-most ticker is completely visible
-        #     # if the ticker right edge touches the canvas edges
-        #     if t_pos == self.frame_buffer.width - ticker.width:
-        #         # fetch next ticker from ticker_list
-        #         self.t_index += 1
-        #         # find equivalent index in ticker_list
-        #         index_next = self.t_index % len(self.tickers)
-        #         self.active_tickers.append(self.new_ticker(index_next))
-        #     ticker.pos -= 1
+            ticker.width = img_w + txt_w
+            # Adds a new ticker to active_tickers when right-most ticker is completely visible
+            # if the ticker right edge touches the canvas edges
+            if t_pos == self.frame_buffer.width - ticker.width:
+                # fetch next ticker from ticker_list
+                self.t_index += 1
+                # find equivalent index in ticker_list
+                index_next = self.t_index % len(self.tickers)
+                self.active_tickers.append(self.new_ticker(index_next))
+            ticker.pos -= 1
 
-        # # update screen
-        # self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
+        # update screen
+        self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
+
 
 # country, debt-related functions
+
+def truncate(num):
+    return int(num * 10) / 10
 
 def datetime_dict(data):
     dt_data = {}
     for key in data.keys():
-        print(key)
         dt = datetime.fromtimestamp(int(key)/1000)
         dt_data[dt] = data[key]
     return dt_data
@@ -252,7 +237,7 @@ def epoch_to_datetime(epoch):
 
 def interpolate_vals(x, x1, y1, x2, y2):
     out = y1 + (x - x1) * ((y2 - y1) / (x2 - x1))
-    return math.floor(out)
+    return out
 
 def read_forecast_file():
     f = open('debt_predictions.json')
@@ -297,7 +282,7 @@ def get_date_range(now, dates_in_data):
 
     return (min_date, max_date)
 
-def get_gdp(country_name):
+def get_gdp(country_name,gdp_data):
     time_key = list(gdp_data.keys())[0]
     return gdp_data[time_key][country_name]
 
