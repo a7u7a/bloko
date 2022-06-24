@@ -1,8 +1,6 @@
-import csv
 import json
 import time
 from datetime import datetime
-from datetime import date
 import math
 
 def datetime_dict(data):
@@ -67,14 +65,12 @@ def get_gdp(country_name):
     time_key = list(gdp_data.keys())[0]
     return gdp_data[time_key][country_name]
 
-
-
 # get data
 debt_preds_data = read_forecast_file()
 gdp_data = read_gdp_file()
+dates_in_data = debt_preds_data.keys()
 
 countries = get_country_list(debt_preds_data)
-dates_in_data = debt_preds_data.keys()
 
 for country_name in countries:
 

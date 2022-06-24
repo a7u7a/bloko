@@ -1,6 +1,6 @@
 import sys
 import os
-from time import sleep
+import time
 from dataclasses import dataclass
 import math
 import uuid
@@ -8,6 +8,7 @@ import json
 from PIL import Image
 
 from tickers import TickerData
+from countries import CountryData
 from rgbmatrix import graphics
 # Import samplebase from parent directory 'samples'
 current = os.path.dirname(os.path.realpath(__file__))
@@ -17,7 +18,7 @@ from samplebase import SampleBase
 
 @dataclass
 class Ticker:
-    id: str
+    id: str # used internally of each active ticker
     name: str
     pos: str = 0
     width: int = 0
@@ -26,6 +27,9 @@ class Scroller(SampleBase):
     def __init__(self):
         super(Scroller, self).__init__()
         self.int_flag = False
+        self.debt_preds_data = read_forecast_file()
+        self.gdp_data = read_gdp_file()
+        self.dates_in_data = self.debt_preds_data.keys()
         # self.load_stocks()
 
     def init_fonts(self):
@@ -36,7 +40,7 @@ class Scroller(SampleBase):
 
     def run(self):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
-        self.tickers = TickerData().tickers
+        self.tickers = CountryData().countries
         self.images = self.load_imgs()
         self.arrow_up = Image.open("./images/arrow_green.ppm").convert('RGB')
         self.arrow_down = Image.open("./images/arrow_red.ppm").convert('RGB')
@@ -102,18 +106,19 @@ class Scroller(SampleBase):
 
     def sleep_once(self, t):
         if self.sleep_once_flag:
-            sleep(t)
+            time.sleep(t)
             self.sleep_once_flag = False
 
     def load_imgs(self):
         img_dict = {}
         for t in self.tickers:
             image = Image.open(t["image_path"]).convert('RGB')
-            t_name = t["name"]
+            t_name = t["id"]
             img_dict[t_name] = image
         return img_dict
 
     def new_ticker(self, index):
+        # get a ticker from tickers and add to active tickers
         return Ticker(id=uuid.uuid1(), name=self.tickers[index]["name"], pos=self.frame_buffer.width)
 
     def interrupt(self, text):
@@ -151,6 +156,11 @@ class Scroller(SampleBase):
             
         return [price, change, change_raw]
 
+
+    def get_country_debt_and_gdp(self):
+        print("wip")
+
+
     def update_tickers(self):
         self.frame_buffer.Clear()
         for ticker in self.active_tickers:
@@ -165,6 +175,7 @@ class Scroller(SampleBase):
             # and draw the arrows
     
             price, change, change_raw = self.get_ticker_fields_from_data(ticker.name)
+            debt, gdp = self.get_country_debt_and_gdp()
 
             # compose frame
             self.frame_buffer.SetImage(t_image, t_pos)
@@ -221,6 +232,69 @@ class Scroller(SampleBase):
         # update screen
         self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
 
+# country, debt-related functions
+
+def datetime_dict(data):
+    dt_data = {}
+    for key in data.keys():
+        print(key)
+        dt = datetime.fromtimestamp(int(key)/1000)
+        dt_data[dt] = data[key]
+    return dt_data
+
+def epoch_to_datetime(epoch):
+    return datetime.fromtimestamp(int(epoch)/1000)
+
+def interpolate_vals(x, x1, y1, x2, y2):
+    out = y1 + (x - x1) * ((y2 - y1) / (x2 - x1))
+    return math.floor(out)
+
+def read_forecast_file():
+    f = open('debt_predictions.json')
+    debt_preds_data = json.load(f)
+    f.close()
+    return debt_preds_data
+
+def read_gdp_file():
+    f = open('gdp.json')
+    #print(f.read())
+    gdp_data = json.load(f)
+    gdp_data = json.loads(gdp_data)
+    f.close()
+    return gdp_data
+
+def get_country_list(debt_preds_data):
+    # assumes items have been sorted beforehand
+    latest_item = list(debt_preds_data.keys())[0]
+    return list(debt_preds_data[latest_item].keys())
+
+def get_date_range(now, dates_in_data):
+    """Returns the date range within the provided date ranges('dates_in_data') with respect to 'now '
+    For instance: if now: 2022-6-2 then ranges should be min_date: 2022-1-1, max_date: 2023-1-1. As long as these dates can be found in the data."""
+    before = []
+    after = []
+    for d in dates_in_data:
+        current_date = int(d)
+        if current_date > now:
+            after.append(current_date)
+        if current_date < now:
+            before.append(current_date)
+
+    if after:
+        max_date = min(after)
+    else:
+        max_date = None
+
+    if before:
+        min_date = max(before)
+    else: 
+        min_date = None
+
+    return (min_date, max_date)
+
+def get_gdp(country_name):
+    time_key = list(gdp_data.keys())[0]
+    return gdp_data[time_key][country_name]
 
 if __name__ == "__main__":
     scroller = Scroller()

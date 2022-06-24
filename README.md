@@ -1,8 +1,13 @@
 **Development branch for the international debt project**
 
-- Notes: in order for this to work both `debt_predictions.json` and `gdp.json` must be compatible by having the same countries and matching dates. Both `.json` files were generated using [this](https://github.com/a7u7a/blokis-intl-debt)
-- Debt scroller app is run with: `sudo python debt_app.py --led-cols=64`
+pending: 
+- merge so both apps can live in the same branch
+- handle case where now is outside range of available dates
+- handle when no files found
 
+- Notes: In order for this to work `debt_predictions.json`, `gdp.json`and`countries.json` must be compatible by having the same countries and matching dates. All `.json` files were generated [here](https://github.com/a7u7a/blokis-intl-debt)
+- OC there is no reason for loading all these files independently when it could be just one file. I should merge: `debt_predictions.json`, `gdp.json`
+- Debt scroller app is run with: `sudo python debt_app.py --led-cols=64`
 
 # Bloko's ticker scroller display
 

@@ -26,7 +26,7 @@ class Scroller(SampleBase):
     def __init__(self):
         super(Scroller, self).__init__()
         self.int_flag = False
-        # self.load_stocks()
+        self.load_stocks()
 
     def init_fonts(self):
         self.font = graphics.Font()
@@ -90,6 +90,7 @@ class Scroller(SampleBase):
             space_avail = space_avail - (txt_w + min_margin)
         return reps
     
+    # 487 1536
     def print_reps(self, reps, txt_w):
         #space_avail = self.matrix.width - txt_w
         increment = math.floor(self.matrix.width / (reps + 1))
