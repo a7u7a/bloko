@@ -1,3 +1,17 @@
+**Development branch for the international debt project**
+
+pending: 
+- handle case where now is outside range of available dates
+- separate folders for ticker scroller and country scroller
+- handle when no files found
+- merge: `debt_predictions.json`, `gdp.json`
+- use country code instead of country name for better reliability
+
+- Notes: In order for this to work `debt_predictions.json`, `gdp.json`and`countries.json` must be compatible by having the same countries and matching dates. All `.json` files were generated [here](https://github.com/a7u7a/blokis-intl-debt).
+- For GDP% indicates the debt amount relative to the GDP
+- GDP calculations are based off latest value by World Bank data (2021) 
+- Debt scroller app is run with: `sudo python debt_app.py --led-cols=64`
+
 # Bloko's ticker scroller display
 
 - This software was developed for my friend Ignacio Gatica's art project called "Stones Above Diamonds"
@@ -13,8 +27,8 @@
 - For the ticker display: 
   - You must first install this: https://github.com/hzeller/rpi-rgb-led-matrix
   - Make sure Python 3 bindings are correctly installed by running some samples 
-  - Then clone this repo inside bindings/python/samples folder
-  - Only then you should attempt running the ticker
+  - Then clone this repo inside `bindings/python/samples` folder
+  - Only then you should try to run the ticker
 - For the swiper:
   - Simply clone this repo inside the home directory
   - You will need a card reader that is compatible with the keyboard module: https://pypi.org/project/keyboard/
