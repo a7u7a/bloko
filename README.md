@@ -52,18 +52,38 @@ sudo python app.py app.py --led-cols=768 --led-slowdown-gpio=5 --led-gpio-mappin
 ### Test card interruption without kiosk
 - Run `python interrupt_test.py`
 
-### Autostart setup: Scroller Ticker display
+### Autostart setup: Debt Scroller display
+- Shh into the pi: `$ ssh pi@raspberrypi.local`
+- Create unit file: `$ sudo nano /lib/systemd/system/bloko_debt.service`
+- Add this to the file: 
+```
+[Unit]
+Description=Bloko debt scroller daemon
+After=multi-user.target
+
+[Service]
+WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
+ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/debt_app.py --led-cols=640 --led-slowdown=2 --led-gpio-mapping=adafruit-hat
+
+[Install]
+WantedBy=multi-user.target
+```
+- Reload daemons: `$ sudo systemctl daemon-reload`
+- Enable service on boot: `$ sudo systemctl enable bloko_debt.service`
+- Reboot: `$ sudo reboot`
+
+### Autostart setup: Ticker Scroller display
 - Shh into the pi: `$ ssh pi@raspberrypi.local`
 - Create unit file: `$ sudo nano /lib/systemd/system/bloko.service`
 - Add this to the file: 
 ```
 [Unit]
-Description=Bloko ticker display daemon
+Description=Bloko ticker scroller daemon
 After=multi-user.target
 
 [Service]
 WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/app.py --led-cols=768 --led-slowdown-gpio=5 --led-gpio-mapping=regular  --led-rows=32 --led-chain=1 --led-pixel-mapper=V-mapper  --led-parallel=2 --led-brightness=70
+ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/app.py --led-cols=640 --led-slowdown=2 --led-gpio-mapping=adafruit-hat
 
 [Install]
 WantedBy=multi-user.target
@@ -78,7 +98,7 @@ WantedBy=multi-user.target
 - Add this to the file: 
 ```
 [Unit]
-Description=Bloko ticker display daemon
+Description=Bloko swiper daemon
 After=multi-user.target
 
 [Service]
@@ -90,7 +110,6 @@ WantedBy=multi-user.target
 - Reload daemons: `$ sudo systemctl daemon-reload`
 - Enable service on boot: `$ sudo systemctl enable bloko_swiper.service`
 - Reboot: `$ sudo reboot`
-
 
 ### Check that daemon is running: 
 - Run: `$ systemctl status bloko.service`
@@ -111,5 +130,8 @@ Mar 05 00:13:24 raspberrypi python3[955]: Suggestion: to slightly improve displa
 Mar 05 00:13:24 raspberrypi python3[955]:         isolcpus=3
 Mar 05 00:13:24 raspberrypi python3[955]: at the end of /boot/cmdline.txt and reboot (see README.md)
 ```
+
 ### Stop daemon
 - Run `$ service bloko stop`
+
+### Remove daemon from startup
