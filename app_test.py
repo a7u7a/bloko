@@ -61,7 +61,7 @@ def get_date_range(now, dates_in_data):
 
     return (min_date, max_date)
 
-def get_gdp(country_name):
+def get_gdp(country_name, gtp_data):
     time_key = list(gdp_data.keys())[0]
     return gdp_data[time_key][country_name]
 
@@ -96,7 +96,7 @@ for country_name in countries:
         debt_now = interpolate_vals(now, min_date, min_date_debt, max_date, max_date_debt)
         # print("interpolated", debt_now)
         
-        gdp = get_gdp(country_name)
+        gdp = get_gdp(country_name, gdp_data)
         # how many times larger is the debt with respect to the gdp
         gdp_perc = (debt_now/gdp)*100
         # print("gdp", gdp)

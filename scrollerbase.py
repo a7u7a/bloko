@@ -38,8 +38,8 @@ class Scroller(SampleBase):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
         self.tickers = TickerData().tickers
         self.images = self.load_imgs()
-        self.arrow_up = Image.open("./images/arrow_green.ppm").convert('RGB')
-        self.arrow_down = Image.open("./images/arrow_red.ppm").convert('RGB')
+        self.arrow_up = Image.open("./images/symbols/arrow_green.ppm").convert('RGB')
+        self.arrow_down = Image.open("./images/symbols/arrow_red.ppm").convert('RGB')
         self.active_tickers = [self.new_ticker(0)]
         self.init_fonts()
         self.init_colors()
@@ -148,7 +148,7 @@ class Scroller(SampleBase):
             except Exception as e:
                 print("Error at scrollerbase get_ticker_fields_from_data():", e)
         else:
-            print("No ticker data yet. Maybe stocks file is loading..")
+            print("No ticker data yet. Stocks may still file is loading..")
             
         return [price, change, change_raw]
 

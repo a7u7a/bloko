@@ -1,5 +1,5 @@
 import asyncio
-from scrollerbase import Scroller
+from debt_scrollerbase import DebtScroller
 from threading import Thread
 from async_finance import Finance
 import watchdog.events
@@ -62,7 +62,7 @@ def run_socket_server():
 # json_watcher = Json_watcher()
 
 print("Starting scroller")
-scroller = Scroller()
+scroller = DebtScroller()
 
 print("Starting socket server")
 thread = Thread(target=run_socket_server)

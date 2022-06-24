@@ -2,6 +2,7 @@ import sys
 import os
 import time
 from dataclasses import dataclass
+from datetime import datetime
 import math
 import uuid
 import json
@@ -20,12 +21,14 @@ from samplebase import SampleBase
 class Ticker:
     id: str # used internally of each active ticker
     name: str
+    code: str
     pos: str = 0
     width: int = 0
+    
 
-class Scroller(SampleBase):
+class DebtScroller(SampleBase):
     def __init__(self):
-        super(Scroller, self).__init__()
+        super(DebtScroller, self).__init__()
         self.int_flag = False
         self.debt_preds_data = read_forecast_file()
         self.gdp_data = read_gdp_file()
@@ -41,9 +44,10 @@ class Scroller(SampleBase):
     def run(self):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
         self.tickers = CountryData().countries
+        print("self.tickers",self.tickers)
         self.images = self.load_imgs()
-        self.arrow_up = Image.open("./images/arrow_green.ppm").convert('RGB')
-        self.arrow_down = Image.open("./images/arrow_red.ppm").convert('RGB')
+        self.arrow_up = Image.open("./images/symbols/arrow_green.ppm").convert('RGB')
+        self.arrow_down = Image.open("./images/symbols/arrow_red.ppm").convert('RGB')
         self.active_tickers = [self.new_ticker(0)]
         self.init_fonts()
         self.init_colors()
@@ -113,13 +117,13 @@ class Scroller(SampleBase):
         img_dict = {}
         for t in self.tickers:
             image = Image.open(t["image_path"]).convert('RGB')
-            t_name = t["id"]
+            t_name = t["name"]
             img_dict[t_name] = image
         return img_dict
 
     def new_ticker(self, index):
         # get a ticker from tickers and add to active tickers
-        return Ticker(id=uuid.uuid1(), name=self.tickers[index]["name"], pos=self.frame_buffer.width)
+        return Ticker(id=uuid.uuid1(), name=self.tickers[index]["name"], pos=self.frame_buffer.width, code=self.tickers[index]["code"] )
 
     def interrupt(self, text):
         self.int_text = text
@@ -152,7 +156,7 @@ class Scroller(SampleBase):
             except Exception as e:
                 print("Error at scrollerbase get_ticker_fields_from_data():", e)
         else:
-            print("No ticker data yet. Maybe stocks file is loading..")
+            print("No ticker data yet. Stocks may still file is loading..")
             
         return [price, change, change_raw]
 
@@ -164,6 +168,7 @@ class Scroller(SampleBase):
     def update_tickers(self):
         self.frame_buffer.Clear()
         for ticker in self.active_tickers:
+            print(ticker)
             # get data
             t_name = ticker.name
             t_pos = ticker.pos
@@ -174,63 +179,63 @@ class Scroller(SampleBase):
             # here we fetch values from cached api calls
             # and draw the arrows
     
-            price, change, change_raw = self.get_ticker_fields_from_data(ticker.name)
-            debt, gdp = self.get_country_debt_and_gdp()
+        #     price, change, change_raw = self.get_ticker_fields_from_data(ticker.name)
+        #     debt, gdp = self.get_country_debt_and_gdp()
 
-            # compose frame
-            self.frame_buffer.SetImage(t_image, t_pos)
-            # print("change_raw",change_raw)
-            if change_raw > 0:
-                arrow = self.arrow_up
-                change_color = self.up_color
-            else:
-                arrow = self.arrow_down
-                change_color = self.down_color
+        #     # compose frame
+        #     self.frame_buffer.SetImage(t_image, t_pos)
+        #     # print("change_raw",change_raw)
+        #     if change_raw > 0:
+        #         arrow = self.arrow_up
+        #         change_color = self.up_color
+        #     else:
+        #         arrow = self.arrow_down
+        #         change_color = self.down_color
 
-            arrow_w, arrow_h = arrow.size
-            base_margin = 4
-            first_line_h = 15
-            second_line_h = 26
-            arrow_pos_h = 21
-            left_margin = 4
-            right_margin = 12
-            text_base_pos = t_pos + img_w + left_margin
-            title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_name)
-            price_pos = text_base_pos
-            price_w = graphics.DrawText(self.frame_buffer, self.font, price_pos, second_line_h, self.up_color, price)
-            arrow_pos = price_pos + base_margin + price_w
-            # if change_raw != 0: # no arrow when change is zero
-            self.frame_buffer.SetImage(arrow, arrow_pos, arrow_pos_h)
-            change_pos = arrow_pos + arrow_w + base_margin
-            change_w = graphics.DrawText(self.frame_buffer, self.font, change_pos, second_line_h, change_color, change)
-            line_top_w = title_w
-            line_bottom_w = price_w + base_margin + arrow_w + base_margin + change_w
-            if line_top_w > line_bottom_w:
-                txt_w = line_top_w + right_margin
-            else:
-                txt_w = line_bottom_w + right_margin
-            ###########
+        #     arrow_w, arrow_h = arrow.size
+        #     base_margin = 4
+        #     first_line_h = 15
+        #     second_line_h = 26
+        #     arrow_pos_h = 21
+        #     left_margin = 4
+        #     right_margin = 12
+        #     text_base_pos = t_pos + img_w + left_margin
+        #     title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_name)
+        #     price_pos = text_base_pos
+        #     price_w = graphics.DrawText(self.frame_buffer, self.font, price_pos, second_line_h, self.up_color, price)
+        #     arrow_pos = price_pos + base_margin + price_w
+        #     # if change_raw != 0: # no arrow when change is zero
+        #     self.frame_buffer.SetImage(arrow, arrow_pos, arrow_pos_h)
+        #     change_pos = arrow_pos + arrow_w + base_margin
+        #     change_w = graphics.DrawText(self.frame_buffer, self.font, change_pos, second_line_h, change_color, change)
+        #     line_top_w = title_w
+        #     line_bottom_w = price_w + base_margin + arrow_w + base_margin + change_w
+        #     if line_top_w > line_bottom_w:
+        #         txt_w = line_top_w + right_margin
+        #     else:
+        #         txt_w = line_bottom_w + right_margin
+        #     ###########
 
-            # update ticker
-            # removes ticker when it has moved offscreen
-            offscreen_margin = 500
-            if t_pos + offscreen_margin + ticker.width == 0:
-                self.active_tickers.remove(ticker)
+        #     # update ticker
+        #     # removes ticker when it has moved offscreen
+        #     offscreen_margin = 500
+        #     if t_pos + offscreen_margin + ticker.width == 0:
+        #         self.active_tickers.remove(ticker)
             
            
-            ticker.width = img_w + txt_w
-            # Adds a new ticker to active_tickers when right-most ticker is completely visible
-            # if the ticker right edge touches the canvas edges
-            if t_pos == self.frame_buffer.width - ticker.width:
-                # fetch next ticker from ticker_list
-                self.t_index += 1
-                # find equivalent index in ticker_list
-                index_next = self.t_index % len(self.tickers)
-                self.active_tickers.append(self.new_ticker(index_next))
-            ticker.pos -= 1
+        #     ticker.width = img_w + txt_w
+        #     # Adds a new ticker to active_tickers when right-most ticker is completely visible
+        #     # if the ticker right edge touches the canvas edges
+        #     if t_pos == self.frame_buffer.width - ticker.width:
+        #         # fetch next ticker from ticker_list
+        #         self.t_index += 1
+        #         # find equivalent index in ticker_list
+        #         index_next = self.t_index % len(self.tickers)
+        #         self.active_tickers.append(self.new_ticker(index_next))
+        #     ticker.pos -= 1
 
-        # update screen
-        self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
+        # # update screen
+        # self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
 
 # country, debt-related functions
 
@@ -297,6 +302,6 @@ def get_gdp(country_name):
     return gdp_data[time_key][country_name]
 
 if __name__ == "__main__":
-    scroller = Scroller()
+    scroller = DebtScroller()
     if (not scroller.process()):
         scroller.print_help()
