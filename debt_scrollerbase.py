@@ -178,8 +178,10 @@ class DebtScroller(SampleBase):
             debt_str = "${:,.2f}".format(debt)
             gdp_str = "%" + str(truncate(gdp_perc))
             
+            # resize fix
+            t_image = t_image.resize((46,30))
             # compose frame
-            self.frame_buffer.SetImage(t_image, t_pos)
+            self.frame_buffer.SetImage(t_image, t_pos,1)
             base_margin = 4
             first_line_h = 15
             second_line_h = 26
