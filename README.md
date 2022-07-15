@@ -135,3 +135,4 @@ Mar 05 00:13:24 raspberrypi python3[955]: at the end of /boot/cmdline.txt and re
 - Run `$ service bloko stop`
 
 ### Remove daemon from startup
+- todo
