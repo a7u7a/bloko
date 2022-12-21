@@ -1,17 +1,3 @@
-**Development branch for the international debt project**
-
-pending: 
-- handle case where now is outside range of available dates
-- separate folders for ticker scroller and country scroller
-- handle when no files found
-- merge: `debt_predictions.json`, `gdp.json`
-- use country code instead of country name for better reliability
-
-- Notes: In order for this to work `debt_predictions.json`, `gdp.json`and`countries.json` must be compatible by having the same countries and matching dates. All `.json` files were generated [here](https://github.com/a7u7a/blokis-intl-debt).
-- For GDP% indicates the debt amount relative to the GDP
-- GDP calculations are based off latest value by World Bank data (2021) 
-- Debt scroller app is run with: `sudo python debt_app.py --led-cols=64`
-
 # Bloko's ticker scroller display
 
 - This software was developed for my friend Ignacio Gatica's art project called "Stones Above Diamonds"
@@ -136,3 +122,18 @@ Mar 05 00:13:24 raspberrypi python3[955]: at the end of /boot/cmdline.txt and re
 
 ### Remove daemon from startup
 - todo
+
+
+**Debt scroller notes**
+
+pending: 
+- handle case where now is outside range of available dates
+- separate folders for ticker scroller and country scroller
+- handle when no files found
+- merge: `debt_predictions.json`, `gdp.json`
+- use country code instead of country name for better reliability
+
+- Notes: In order for this to work `debt_predictions.json`, `gdp.json`and`countries.json` must be compatible by having the same countries and matching dates. All `.json` files were generated [here](https://github.com/a7u7a/blokis-intl-debt).
+- For GDP% indicates the debt amount relative to the GDP
+- GDP calculations are based off latest value by World Bank data (2021) 
+- Debt scroller app is run with: `sudo python debt_app.py --led-cols=64`
