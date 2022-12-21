@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import json
 
-print("test_c",)
-
 def read_countries_file():
     f = open('countries.json')
     countries = json.load(f)
