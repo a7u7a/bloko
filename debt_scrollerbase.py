@@ -22,7 +22,7 @@ class Ticker:
     id: str # used internally of each active ticker
     name: str
     code: str
-    pos: str = 0
+    pos: str = 40
     width: int = 0
 
 class DebtScroller(SampleBase):
@@ -133,7 +133,7 @@ class DebtScroller(SampleBase):
 
     def new_ticker(self, index):
         # get a ticker from tickers and add to active tickers
-        return Ticker(id=uuid.uuid1(), name=self.tickers[index]["name"], pos=self.frame_buffer.width, code=self.tickers[index]["code"] )
+        return Ticker(id=uuid.uuid1(), name=self.tickers[index]["name"], pos=0, code=self.tickers[index]["code"] )
 
     def interrupt(self, text):
         self.int_text = text
@@ -217,7 +217,7 @@ class DebtScroller(SampleBase):
                 # find equivalent index in ticker_list
                 index_next = self.t_index % len(self.tickers)
                 self.active_tickers.append(self.new_ticker(index_next))
-            ticker.pos -= 1
+            #ticker.pos -= 1
 
         # update screen
         self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
