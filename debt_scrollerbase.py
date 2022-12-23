@@ -143,8 +143,8 @@ class DebtScroller(SampleBase):
         self.clear_buffer_flag = True
 
     def get_country_debt_and_gdp(self, country_name):
-        offset = 1800000
-        now = math.floor((time.time()+offset)*1000)  # epoch
+        #offset = 1800000
+        now = math.floor((time.time())*1000)  # epoch
         min_date, max_date = get_date_range(now, self.dates_in_data)
 
         if min_date and max_date:
