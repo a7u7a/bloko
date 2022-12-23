@@ -192,8 +192,8 @@ class DebtScroller(SampleBase):
             title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_code)
             debt_pos = text_base_pos
             debt_w = graphics.DrawText(self.frame_buffer, self.font, debt_pos, second_line_h, self.up_color, debt_str)
-            gdp_pos = debt_pos + base_margin + debt_w + base_margin 
-            gdp_w = graphics.DrawText(self.frame_buffer, self.font, gdp_pos, second_line_h, self.down_color, gdp_str)
+            gdp_pos = text_base_pos + base_margin + title_w + base_margin 
+            gdp_w = graphics.DrawText(self.frame_buffer, self.font, gdp_pos, first_line_h, self.down_color, gdp_str)
             line_top_w = title_w
             line_bottom_w = debt_w + base_margin + base_margin + gdp_w
             if line_top_w > line_bottom_w:
