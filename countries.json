@@ -1,9 +1,9 @@
 {
   "countries": [
     {
-      "name": "Afghanistan",
-      "code": "AFG",
-      "image_path": "./images/countries/AFG.ppm"
+      "name": "Chile",
+      "code": "CHL",
+      "image_path": "./images/countries/CHL.ppm"
     }
   ]
 }
