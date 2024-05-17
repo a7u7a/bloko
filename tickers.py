@@ -69,7 +69,7 @@ class TickerData(object):
                 "image_path": "./images/tickers/disney.ppm"
             },                
             {
-                "name":"FB",
+                "name":"META",
                 "image_path": "./images/tickers/meta.ppm"
             },
             {

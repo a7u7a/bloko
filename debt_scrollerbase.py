@@ -74,6 +74,7 @@ class DebtScroller(SampleBase):
     def init_colors(self):
         self.base_color = graphics.Color(255, 255, 255)
         self.up_color = graphics.Color(0, 255, 0)
+        self.no_data_color = graphics.Color(255, 0, 0)
         self.down_color = graphics.Color(255, 0, 0)
         self.interrupt_color = graphics.Color(255,0, 0)
 
@@ -152,8 +153,10 @@ class DebtScroller(SampleBase):
             
             # get debt for current time and gdp
             debt_now = interpolate_vals(now, min_date, min_date_debt, max_date, max_date_debt)    
-            gdp = get_gdp(country_name, self.gdp_data)
-            
+            if debt_now > 0:
+                gdp = get_gdp(country_name, self.gdp_data)
+            else:
+                gdp = 0
             return (debt_now, gdp)
         else:
             print("No data available in debt_predictions.json that matches the current time.")
@@ -172,11 +175,15 @@ class DebtScroller(SampleBase):
     
             # get proyected debt and gdp for current country in the scroller
             debt, gdp = self.get_country_debt_and_gdp(t_name)
-            gdp_perc = (debt/gdp)*100
             
-            # format strings
-            debt_str = "${:,.2f}".format(debt)
-            gdp_str = "%" + str(truncate(gdp_perc))
+            if debt > 0:
+                gdp_perc = (debt/gdp)*100
+                # format strings
+                debt_str = "${:,.2f}".format(debt)
+                gdp_str = "%" + str(truncate(gdp_perc))
+            else:
+                debt_str = "No data is available for the specified locations"
+                gdp_str = ""
             
             # resize fix
             #t_image = t_image.resize((46,30))
@@ -191,7 +198,10 @@ class DebtScroller(SampleBase):
             text_base_pos = t_pos + img_w + left_margin
             title_w = graphics.DrawText(self.frame_buffer, self.font, text_base_pos, first_line_h, self.base_color, t_code)
             debt_pos = text_base_pos
-            debt_w = graphics.DrawText(self.frame_buffer, self.font, debt_pos, second_line_h, self.up_color, debt_str)
+            if debt > 0:    
+                debt_w = graphics.DrawText(self.frame_buffer, self.font, debt_pos, second_line_h, self.up_color, debt_str)
+            else:
+                debt_w = graphics.DrawText(self.frame_buffer, self.font, debt_pos, second_line_h, self.no_data_color, debt_str)
             gdp_pos = debt_pos + base_margin + debt_w + base_margin 
             gdp_w = graphics.DrawText(self.frame_buffer, self.font, gdp_pos, second_line_h, self.down_color, gdp_str)
             line_top_w = title_w
