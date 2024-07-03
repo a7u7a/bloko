@@ -24,6 +24,7 @@ class Finance(object):
         try:
             ticker = yf.Ticker(symbol)
             data = ticker.info
+            print("yfinance data",data)
             regular_market_previous_close = data.get('regularMarketPreviousClose')
             regular_market_open = data.get('regularMarketOpen')
             

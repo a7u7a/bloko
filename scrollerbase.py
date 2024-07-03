@@ -139,11 +139,9 @@ class Scroller(SampleBase):
         price = temp_text
         change = temp_text
         change_raw = 0
-        print("ticker_data", self.stock_data)
         if self.stock_data is not None:
             try:
                 ticker_data = self.stock_data[name]
-                print("Test ticker data", ticker_data)
                 price = str(ticker_data["regularMarketOpen"]["fmt"])
                 change = str(ticker_data["regularMarketChangePercent"]["fmt"])
                 change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])
