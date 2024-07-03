@@ -58,7 +58,7 @@ print("Starting finance data service")
 finance = Finance()
 
 print("Starting scroller")
-scroller = Scroller()
+# scroller = Scroller()
 
 print("Starting json file watcher")
 json_watcher = Json_watcher()
