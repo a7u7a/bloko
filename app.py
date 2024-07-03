@@ -67,5 +67,5 @@ print("Starting socket server")
 thread = Thread(target=run_socket_server)
 thread.daemon = True
 thread.start()
-if (not scroller.process()):
-    scroller.print_help()
+# if (not scroller.process()):
+#     scroller.print_help()
