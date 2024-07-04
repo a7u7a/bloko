@@ -17,45 +17,35 @@ class Finance(object):
     def __init__(self):
         self.tickerData = TickerData()
         self.run_yfinance()
-        # self.thread = Thread(target=self.run_yfinance)
-        # self.thread.daemon = True
-        # self.thread.start()
 
-    def get_stocks_data(self, symbol: str) -> dict:
-        try:
-            ticker = yf.Ticker(symbol)
-            data = ticker.info
-            regular_market_previous_close = data.get('regularMarketPreviousClose')
-            regular_market_open = data.get('regularMarketOpen')
-            regular_market_change_percent = calculate_regular_market_change_percent(regular_market_previous_close, regular_market_open)
-            stock_data = {
-                "currentPrice": data.get('currentPrice'),
-                "regularMarketVolume": data.get('regularMarketVolume'),
-                "regularMarketChangePercent": regular_market_change_percent
+    def create_json_file_from_data(self, data):
+        result = {}
+        for ticker in data.columns.levels[0]:
+            ticker_data = data[ticker].iloc[0]  # Get the first row of the ticker data
+            result[ticker] = {
+                "currentPrice": ticker_data['Close'],
+                "regularMarketVolume": ticker_data['Volume'],
+                "regularMarketChangePercent": (ticker_data['Close'] - ticker_data['Open']) / ticker_data['Open'] * 100
             }
-            return [symbol, stock_data]
-        except Exception as e:
-            print("Error on get_stocks_data(). Processing:",symbol ,"Error:", e)
-            return None
-
-    def save_file(self, dict_data):
-        try:
-            with open('stock_data.json', 'w') as file:
-                json.dump(dict_data, file)
-        except Exception as e:
-            print("Error while saving stock data to file:", e)
+        with open('stock_data.json', 'w') as file:
+            print("Saving data to file..")
+            json.dump(result, file)
 
     def run_yfinance(self):
         stocks = self.tickerData.names_list()
         while True:
             data = {}
             try:
-                for symbol in stocks:
-                    result = self.get_stocks_data(symbol)
-                    print("result",result)
-                    if result:
-                        data[result[0]] = result[1]
-                self.save_file(data)
+                data = yf.download(
+                tickers=stocks,
+                period='1d',
+                interval='1d',
+                group_by='ticker',
+                auto_adjust=False,
+                prepost=False,
+                threads=True,
+                proxy=None)
+                self.create_json_file_from_data(data)
                 print("Updated stock_data.json at", datetime.now())
             except Exception as e:
                 print("ERROR run_yfinance.py, problem getting data from Yahoo Finance:", e)
