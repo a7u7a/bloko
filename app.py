@@ -55,7 +55,7 @@ def run_socket_server():
     asyncio.run(socket_main())
 
 print("Starting finance data service")
-finance = Finance()
+# finance = Finance()
 
 print("Starting scroller")
 scroller = Scroller()
