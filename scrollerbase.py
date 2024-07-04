@@ -139,8 +139,8 @@ class Scroller(SampleBase):
         price = temp_text
         change = temp_text
         change_raw = 0
-        print("currentPrice", self.stock_data[name]["currentPrice"]["fmt"])
-        print("change", self.stock_data[name]["regularMarketChangePercent"]["fmt"])
+        print("currentPrice", self.stock_data[name]["currentPrice"])
+        print("change", self.stock_data[name]["regularMarketChangePercent"])
         print("change_raw", self.stock_data[name]["regularMarketChangePercent"])
         if self.stock_data is not None:
             try:
