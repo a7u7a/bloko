@@ -46,6 +46,7 @@ class Finance(object):
 
     def run_yfinance(self):
         stocks = self.tickerData.names_list()
+        print("stocks", stocks)
         while True:
             data = {}
             try:
