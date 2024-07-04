@@ -42,7 +42,7 @@ class Finance(object):
                     group_by='ticker',
                     auto_adjust=False,
                     prepost=False,
-                    threads=True,
+                    threads=False,
                     proxy=None
                 )
                 self.create_json_file_from_data(data)
