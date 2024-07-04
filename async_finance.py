@@ -24,10 +24,8 @@ class Finance(object):
         try:
             ticker = yf.Ticker(symbol)
             data = ticker.info
-            print("yfinance data",data)
             regular_market_previous_close = data.get('regularMarketPreviousClose')
             regular_market_open = data.get('regularMarketOpen')
-            
             regular_market_change_percent = calculate_regular_market_change_percent(regular_market_previous_close, regular_market_open)
             stock_data = {
                 "currentPrice": data.get('currentPrice'),
@@ -53,6 +51,7 @@ class Finance(object):
             try:
                 for symbol in stocks:
                     result = self.get_stocks_data(symbol)
+                    print("result",result)
                     if result:
                         data[result[0]] = result[1]
                 self.save_file(data)
