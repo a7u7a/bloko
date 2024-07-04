@@ -142,7 +142,7 @@ class Scroller(SampleBase):
         if self.stock_data is not None:
             try:
                 ticker_data = self.stock_data[name]
-                price = str(ticker_data["regularMarketOpen"]["fmt"])
+                price = str(ticker_data["currentPrice"]["fmt"])
                 change = str(ticker_data["regularMarketChangePercent"]["fmt"])
                 change_raw = float(ticker_data["regularMarketChangePercent"]["raw"])
             except Exception as e:

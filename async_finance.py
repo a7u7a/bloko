@@ -16,9 +16,10 @@ class Finance(object):
     """Object dedicated to update the stocks_data.json file with fresh numbers from the API"""
     def __init__(self):
         self.tickerData = TickerData()
-        self.thread = Thread(target=self.run_yfinance)
-        self.thread.daemon = True
-        self.thread.start()
+        self.run_yfinance()
+        # self.thread = Thread(target=self.run_yfinance)
+        # self.thread.daemon = True
+        # self.thread.start()
 
     def get_stocks_data(self, symbol: str) -> dict:
         try:
@@ -46,7 +47,6 @@ class Finance(object):
 
     def run_yfinance(self):
         stocks = self.tickerData.names_list()
-        print("stocks", stocks)
         while True:
             data = {}
             try:
@@ -64,4 +64,4 @@ class Finance(object):
 # Example usage
 if __name__ == "__main__":
     finance = Finance()
-    finance.thread.join()  # This will keep the main thread running
+    # finance.thread.join()  # This will keep the main thread running
