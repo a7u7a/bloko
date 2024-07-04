@@ -58,7 +58,7 @@ print("Starting finance data service")
 finance = Finance()
 
 print("Starting scroller")
-# scroller = Scroller()
+scroller = Scroller()
 
 print("Starting json file watcher")
 json_watcher = Json_watcher()
@@ -67,5 +67,5 @@ print("Starting socket server")
 thread = Thread(target=run_socket_server)
 thread.daemon = True
 thread.start()
-# if (not scroller.process()):
-#     scroller.print_help()
+if (not scroller.process()):
+    scroller.print_help()
