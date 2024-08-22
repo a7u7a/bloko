@@ -65,7 +65,7 @@ class Finance(object):
                 self.create_json_file_from_data(data)
                 logging.info(f"Updated stock_data.json at {datetime.now()}")
             except Exception as e:
-                logging.error(f"ERROR run_yfinance.py, problem getting data from Yahoo Finance: {e}")
+                logging.exception(f"ERROR run_yfinance(), problem getting data from Yahoo Finance: {e}")
             time.sleep(86400) # Sleep for 24 hrs
 
     def start_yfinance_thread(self):
