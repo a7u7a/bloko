@@ -10,6 +10,7 @@ import logging
 
 # Ensure the log directory exists
 log_directory = '/home/pi/bloko/logs/'
+data_directory = '/home/pi/bloko/data/'
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
@@ -52,8 +53,10 @@ class Finance(object):
                 # Handle the case where data is missing for the ticker
                 logging.warning(f"No data returned for ticker {ticker}")
         
-        with open('stock_data.json', 'w') as file:
-            logging.info("Saving data to file..")
+        if not os.path.exists(data_directory):
+            os.makedirs(data_directory)
+        with open(os.path.join(data_directory, 'stock_data.json'), 'w') as file:
+            logging.info("Saving data to stock_data.json..")
             json.dump(result, file)
 
     def run_yfinance(self):
