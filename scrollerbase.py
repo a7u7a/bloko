@@ -1,5 +1,5 @@
 import sys
-import os
+import os, os.path
 from time import sleep
 from dataclasses import dataclass
 import math
@@ -21,6 +21,8 @@ class Ticker:
     name: str
     pos: str = 0
     width: int = 0
+
+data_directory = '/home/pi/bloko/data/'
 
 class Scroller(SampleBase):
     def __init__(self):
@@ -126,7 +128,7 @@ class Scroller(SampleBase):
 
     def load_stocks(self):
             try:
-                with open('stock_data.json') as json_file:
+                with open(os.path.join(data_directory, 'stock_data.json')) as json_file:
                     self.stock_data = json.load(json_file)
                     print("Updated stock data OK")
             except Exception as e: 
