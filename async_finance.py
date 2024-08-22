@@ -1,3 +1,4 @@
+import os, os.path
 import time
 from datetime import datetime
 import json
@@ -6,9 +7,15 @@ from tickers import TickerData
 import threading
 import logging
 
+
+# Ensure the log directory exists
+log_directory = '/home/pi/bloko/logs/'
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
 # Set up logging configuration
 logging.basicConfig(
-    filename='/home/pi/bloko/logs/stock_data.log',  # Change the path to wherever you want to store logs
+    filename=os.path.join(log_directory, 'stock_data.log'), 
     level=logging.DEBUG,  # Set to DEBUG to capture all types of logs
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
