@@ -38,14 +38,22 @@ class Finance(object):
     def create_json_file_from_data(self, data):
         result = {}
         for ticker in data.columns.levels[0]:
-            ticker_data = data[ticker].iloc[0]
-            result[ticker] = {
-                "currentPrice": ticker_data['Close'],
-                "regularMarketVolume": ticker_data['Volume'],
-                "regularMarketChangePercent": (ticker_data['Close'] - ticker_data['Open']) / ticker_data['Open'] * 100
-            }
+            ticker_data = data[ticker]
+            
+            # Check if the DataFrame for this ticker is not empty
+            if not ticker_data.empty:
+                ticker_data = ticker_data.iloc[0]
+                result[ticker] = {
+                    "currentPrice": ticker_data['Close'],
+                    "regularMarketVolume": ticker_data['Volume'],
+                    "regularMarketChangePercent": (ticker_data['Close'] - ticker_data['Open']) / ticker_data['Open'] * 100
+                }
+            else:
+                # Handle the case where data is missing for the ticker
+                logging.warning(f"No data returned for ticker {ticker}")
+        
         with open('stock_data.json', 'w') as file:
-            logging.info("Saving data to stock_data.json..")
+            logging.info("Saving data to file..")
             json.dump(result, file)
 
     def run_yfinance(self):
