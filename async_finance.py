@@ -49,7 +49,7 @@ class Finance(object):
                 print("Updated stock_data.json at", datetime.now())
             except Exception as e:
                 print("ERROR run_yfinance.py, problem getting data from Yahoo Finance:", e)
-            time.sleep(30)  # sleep for 30 seconds
+            time.sleep(43200)  # sleep for 30 seconds
 
     def start_yfinance_thread(self):
         yfinance_thread = threading.Thread(target=self.run_yfinance)
