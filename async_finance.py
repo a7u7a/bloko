@@ -16,7 +16,7 @@ if not os.path.exists(log_directory):
 
 # Set up logging configuration
 logging.basicConfig(
-    filename=os.path.join(log_directory, 'stock_data.log'), 
+    filename=os.path.join(log_directory, 'async_yfinance.log'), 
     level=logging.DEBUG,  # Set to DEBUG to capture all types of logs
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
@@ -84,7 +84,6 @@ class Finance(object):
         yfinance_thread.daemon = True  # This allows the thread to be killed when the main program exits
         yfinance_thread.start()
 
-# Example usage
 if __name__ == "__main__":
     logging.info("Starting Finance daemon")
     finance = Finance()
