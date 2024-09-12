@@ -18,7 +18,7 @@ class Handler(watchdog.events.PatternMatchingEventHandler):
   
 class Json_watcher():
     def __init__(self):
-        src_path = r"./"
+        src_path = r"/home/pi/bloko/data/"
         event_handler = Handler()
         self.observer = watchdog.observers.Observer()
         self.observer.schedule(event_handler, path=src_path)
@@ -54,8 +54,8 @@ async def socket_main():
 def run_socket_server():
     asyncio.run(socket_main())
 
-print("Starting finance data service")
-finance = Finance()
+# print("Starting finance data service")
+# finance = Finance()
 
 print("Starting scroller")
 scroller = Scroller()
