@@ -66,6 +66,7 @@ class Finance(object):
         logging.info("Enter run_yfinance()")
         try:
             logging.info("Reading self.tickerData.names_list()")
+            logging.info("Chek",self.tickerData.names_list())
             stocks = self.tickerData.names_list()
         except Exception as e:
             logging.info("Error reading self.tickerData.names_list()")
