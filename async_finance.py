@@ -33,17 +33,19 @@ def calculate_regular_market_change_percent(previous_close, market_open):
 class Finance(object):
     """Object dedicated to update the stocks_data.json file with fresh numbers from the API"""
     def __init__(self):
+        logging.info("init Finance class")
         self.tickerData = TickerData()
         self.start_yfinance_thread()
 
     def create_json_file_from_data(self, data):
+        logging.info("Enter create_json_file_from_data()")
         result = {}
         for ticker in data.columns.levels[0]:
+            logging.info("Processing ticker:",ticker)                
             ticker_data = data[ticker]
             
             # Check if the DataFrame for this ticker is not empty
             if not ticker_data.empty:
-                logging.info("Processing ticker:",ticker)                
                 ticker_data = ticker_data.iloc[0]
                 result[ticker] = {
                     "currentPrice": ticker_data['Close'],
@@ -61,6 +63,7 @@ class Finance(object):
             json.dump(result, file)
 
     def run_yfinance(self):
+        logging.info("Enter run_yfinance()")
         stocks = self.tickerData.names_list()
         while True:
             try:
@@ -81,9 +84,11 @@ class Finance(object):
             time.sleep(86400) # Sleep for 24 hrs
 
     def start_yfinance_thread(self):
+        logging.info("Starting thread")
         yfinance_thread = threading.Thread(target=self.run_yfinance)
         yfinance_thread.daemon = True  # This allows the thread to be killed when the main program exits
         yfinance_thread.start()
+        logging.info("Thread started ok!")
 
 if __name__ == "__main__":
     logging.info("Starting Finance daemon")
