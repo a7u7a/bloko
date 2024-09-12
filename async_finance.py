@@ -65,6 +65,7 @@ class Finance(object):
     def run_yfinance(self):
         logging.info("Enter run_yfinance()")
         stocks = self.tickerData.names_list()
+        logging.info("Stocks:", stocks)
         while True:
             try:
                 data = yf.download(
