@@ -15,7 +15,7 @@ After=multi-user.target
 
 [Service]
 WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/app.py --led-cols=640 --led-slowdown=2 --led-gpio-mapping=adafruit-hat
+ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_debt_app.sh
 
 [Install]
 WantedBy=multi-user.target
@@ -39,16 +39,16 @@ After=network.target
 [Service]
 User=pi
 WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/async-finance.py
+ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_yfinance_app.sh
 
 [Install]
 WantedBy=multi-user.target
 ```
 
 - Reload daemons: `$ sudo systemctl daemon-reload`
-- Enable service on boot: `$ sudo systemctl enable bloko.service`
+- Enable service on boot: `$ sudo systemctl enable yfinance.service`
 - Reboot: `$ sudo reboot`
 
 ## Check that daemon is running
 
-- Run: `$ systemctl status bloko.service`
+- Run: `$ systemctl status yfinance.service`
