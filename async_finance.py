@@ -43,6 +43,7 @@ class Finance(object):
             
             # Check if the DataFrame for this ticker is not empty
             if not ticker_data.empty:
+                logging.info("Processing ticker:",ticker)                
                 ticker_data = ticker_data.iloc[0]
                 result[ticker] = {
                     "currentPrice": ticker_data['Close'],
