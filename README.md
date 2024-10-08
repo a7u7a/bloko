@@ -27,6 +27,10 @@ WantedBy=multi-user.target
 
 ## Autostart setup: Async-yfinance
 
+- Create a new env: `python3 -m venv yfinance_env`
+- Activate env: `source yfinance_env/bin/activate`
+
+- Install yfinance and make sure it runs: 
 - Shh into the pi: `$ ssh pi@raspberrypi.local`
 - Create unit file: `$ sudo nano /lib/systemd/system/yfinance.service`
 - Add this to the file:

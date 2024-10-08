@@ -17,7 +17,7 @@ if not os.path.exists(log_directory):
 # Set up logging configuration
 logging.basicConfig(
     filename=os.path.join(log_directory, 'async_yfinance.log'), 
-    level=logging.DEBUG,  # Set to DEBUG to capture all types of logs
+    level=logging.INFO,  # Set to DEBUG to capture all types of logs
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
@@ -38,19 +38,17 @@ class Finance(object):
         self.start_yfinance_thread()
 
     def create_json_file_from_data(self, data):
-        logging.info("Enter create_json_file_from_data()")
         result = {}
         for ticker in data.columns.levels[0]:
-            logging.info("Processing ticker:",ticker)                
             ticker_data = data[ticker]
-            
             # Check if the DataFrame for this ticker is not empty
             if not ticker_data.empty:
                 ticker_data = ticker_data.iloc[0]
+                rmcp = (ticker_data['Close'] - ticker_data['Open']) / ticker_data['Open'] * 100
                 result[ticker] = {
                     "currentPrice": ticker_data['Close'],
                     "regularMarketVolume": ticker_data['Volume'],
-                    "regularMarketChangePercent": (ticker_data['Close'] - ticker_data['Open']) / ticker_data['Open'] * 100
+                    "regularMarketChangePercent": rmcp
                 }
             else:
                 # Handle the case where data is missing for the ticker
@@ -63,17 +61,11 @@ class Finance(object):
             json.dump(result, file)
 
     def run_yfinance(self):
-        logging.info("Enter run_yfinance()")
-        try:
-            logging.info("Reading self.tickerData.names_list()")
-            logging.info("Chek",self.tickerData.names_list())
-            stocks = self.tickerData.names_list()
-        except Exception as e:
-            logging.info("Error reading self.tickerData.names_list()")
-
-        logging.info("Stocks:", stocks)
+        stocks = self.tickerData.names_list()
+        
         while True:
             try:
+                logging.info("Attempting to download data from Yahoo Finance")
                 data = yf.download(
                     tickers=stocks,
                     period='1d',
@@ -84,8 +76,10 @@ class Finance(object):
                     threads=False,
                     proxy=None
                 )
+                logging.info("Data downloaded successfully")
+
                 self.create_json_file_from_data(data)
-                logging.info(f"Updated stock_data.json at {datetime.now()}")
+                logging.info(f"Updated stock_data.json")
             except Exception as e:
                 logging.exception(f"ERROR run_yfinance(), problem getting data from Yahoo Finance: {e}")
             time.sleep(86400) # Sleep for 24 hrs
@@ -96,6 +90,7 @@ class Finance(object):
         yfinance_thread.daemon = True  # This allows the thread to be killed when the main program exits
         yfinance_thread.start()
         logging.info("Thread started ok!")
+        yfinance_thread.join()
 
 if __name__ == "__main__":
     logging.info("Starting Finance daemon")
