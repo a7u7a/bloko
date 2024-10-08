@@ -1,10 +1,9 @@
 # Bloko's ticker scroller display
 
-Version yFinance para obra Pedro Engel
+Version yFinance para obra Pedro Engel. Runs in two separate services, one for yfinance and the other for the scroller app.py
 
-## Autostart setup: Ticker Scroller display
+## Install scroller service
 
-- Shh into the pi: `$ ssh pi@raspberrypi.local`
 - Create unit file: `$ sudo nano /lib/systemd/system/bloko.service`
 - Add this to the file:
 
@@ -15,23 +14,30 @@ After=multi-user.target
 
 [Service]
 WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_debt_app.sh
+ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_scroller_app.sh
 
 [Install]
 WantedBy=multi-user.target
 ```
 
+### Handy commands
+- Check service status: `$ systemctl status bloko.service`
 - Reload daemons: `$ sudo systemctl daemon-reload`
+- Restart service `$ sudo systemctl restart bloko.service`
+- Stop: `$ service bloko stop`
 - Enable service on boot: `$ sudo systemctl enable bloko.service`
-- Reboot: `$ sudo reboot`
 
-## Autostart setup: Async-yfinance
+## Install yfinance service
+
+### yfinance requires a virtual env to run
 
 - Create a new env: `python3 -m venv yfinance_env`
 - Activate env: `source yfinance_env/bin/activate`
+- Install yfinance: `pip install yfinance`
+- Test: `python async_finance.py`
 
-- Install yfinance and make sure it runs: 
-- Shh into the pi: `$ ssh pi@raspberrypi.local`
+### Autostart
+
 - Create unit file: `$ sudo nano /lib/systemd/system/yfinance.service`
 - Add this to the file:
 
@@ -48,11 +54,10 @@ ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_yfinance
 [Install]
 WantedBy=multi-user.target
 ```
+### Handy commands
 
+- Check service status: `$ systemctl status yfinance.service`
 - Reload daemons: `$ sudo systemctl daemon-reload`
+- Restart service `$ sudo systemctl restart yfinance.service`
+- Stop: `$ service yfinance stop`
 - Enable service on boot: `$ sudo systemctl enable yfinance.service`
-- Reboot: `$ sudo reboot`
-
-## Check that daemon is running
-
-- Run: `$ systemctl status yfinance.service`

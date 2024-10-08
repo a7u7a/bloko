@@ -150,7 +150,6 @@ class TickerData(object):
 
     def names_list(self):
         list =[]
-        # ... existing code to get the names list ...
         for ticker in self.tickers:
             list.append(ticker['name'])
         return list

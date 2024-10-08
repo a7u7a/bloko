@@ -1,7 +1,6 @@
 import asyncio
 from scrollerbase import Scroller
 from threading import Thread
-from async_finance import Finance
 import watchdog.events
 import watchdog.observers
 
