@@ -6,7 +6,7 @@ import yfinance as yf
 from tickers import TickerData
 import threading
 import logging
-
+import pandas as pd
 
 # Ensure the log directory exists
 log_directory = '/home/pi/bloko/logs/'
@@ -39,19 +39,19 @@ class Finance(object):
 
     def create_json_file_from_data(self, data):
         result = {}
-        for ticker, ticker_data in data.items():
-            # Check if ticker_data is not empty and contains valid data
-            if ticker_data and 'Close' in ticker_data and 'Open' in ticker_data:
-                close = ticker_data['Close'][-1]  # Get the last (most recent) close price
-                open_price = ticker_data['Open'][-1]  # Get the last (most recent) open price
-                volume = ticker_data['Volume'][-1] if 'Volume' in ticker_data else None
+        for ticker in data.columns.levels[0]:
+            ticker_data = data[ticker]
+            if not ticker_data.empty and 'Close' in ticker_data.columns and 'Open' in ticker_data.columns:
+                close = ticker_data['Close'].iloc[-1]
+                open_price = ticker_data['Open'].iloc[-1]
+                volume = ticker_data['Volume'].iloc[-1] if 'Volume' in ticker_data.columns else None
 
-                if close is not None and open_price is not None and open_price != 0:
+                if not pd.isna(close) and not pd.isna(open_price) and open_price != 0:
                     rmcp = (close - open_price) / open_price * 100
                     result[ticker] = {
-                        "currentPrice": close,
-                        "regularMarketVolume": volume,
-                        "regularMarketChangePercent": rmcp
+                        "currentPrice": float(close),
+                        "regularMarketVolume": int(volume) if volume is not None else None,
+                        "regularMarketChangePercent": float(rmcp)
                     }
                 else:
                     logging.warning(f"Invalid Close or Open price for ticker {ticker}")
@@ -81,9 +81,9 @@ class Finance(object):
                 logging.info("Data downloaded successfully")
                 
                 # Log the structure of the data
-                logging.info(f"Downloaded data keys: {data.keys()}")
-                for ticker in list(data.keys())[:3]:  # Log details for first 3 tickers
-                    logging.info(f"Data for {ticker}: {data[ticker].keys()}")
+                logging.info(f"Downloaded data shape: {data.shape}")
+                logging.info(f"Downloaded data columns: {data.columns}")
+                logging.info(f"First few rows of data:\n{data.head()}")
 
                 self.create_json_file_from_data(data)
                 logging.info(f"Updated stock_data.json")
