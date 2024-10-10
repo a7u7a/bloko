@@ -21,6 +21,7 @@ WantedBy=multi-user.target
 ```
 
 ### Handy commands
+
 - Check service status: `$ systemctl status bloko.service`
 - Reload daemons: `$ sudo systemctl daemon-reload`
 - Restart service `$ sudo systemctl restart bloko.service`
@@ -54,6 +55,7 @@ ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_yfinance
 [Install]
 WantedBy=multi-user.target
 ```
+
 ### Handy commands
 
 - Check service status: `$ systemctl status yfinance.service`

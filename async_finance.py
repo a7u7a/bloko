@@ -39,26 +39,28 @@ class Finance(object):
 
     def create_json_file_from_data(self, data):
         result = {}
-        for ticker in data.columns.levels[0]:
-            ticker_data = data[ticker]
-            # Check if the DataFrame for this ticker is not empty
-            if not ticker_data.empty:
-                ticker_data = ticker_data.iloc[0]
-                rmcp = (ticker_data['Close'] - ticker_data['Open']) / ticker_data['Open'] * 100
-                result[ticker] = {
-                    "currentPrice": ticker_data['Close'],
-                    "regularMarketVolume": ticker_data['Volume'],
-                    "regularMarketChangePercent": rmcp
-                }
+        for ticker, ticker_data in data.items():
+            # Check if ticker_data is not empty and contains valid data
+            if ticker_data and 'Close' in ticker_data and 'Open' in ticker_data:
+                close = ticker_data['Close'][-1]  # Get the last (most recent) close price
+                open_price = ticker_data['Open'][-1]  # Get the last (most recent) open price
+                volume = ticker_data['Volume'][-1] if 'Volume' in ticker_data else None
+
+                if close is not None and open_price is not None and open_price != 0:
+                    rmcp = (close - open_price) / open_price * 100
+                    result[ticker] = {
+                        "currentPrice": close,
+                        "regularMarketVolume": volume,
+                        "regularMarketChangePercent": rmcp
+                    }
+                else:
+                    logging.warning(f"Invalid Close or Open price for ticker {ticker}")
             else:
-                # Handle the case where data is missing for the ticker
-                logging.warning(f"No data returned for ticker {ticker}")
-        
-        if not os.path.exists(data_directory):
-            os.makedirs(data_directory)
-        with open(os.path.join(data_directory, 'stock_data.json'), 'w') as file:
-            logging.info("Saving data to stock_data.json..")
-            json.dump(result, file)
+                logging.warning(f"No valid data returned for ticker {ticker}")
+
+        # Write the result to a JSON file
+        with open(os.path.join(self.data_directory, 'stock_data.json'), 'w') as f:
+            json.dump(result, f, indent=2)
 
     def run_yfinance(self):
         stocks = self.tickerData.names_list()
@@ -77,6 +79,11 @@ class Finance(object):
                     proxy=None
                 )
                 logging.info("Data downloaded successfully")
+                
+                # Log the structure of the data
+                logging.info(f"Downloaded data keys: {data.keys()}")
+                for ticker in list(data.keys())[:3]:  # Log details for first 3 tickers
+                    logging.info(f"Data for {ticker}: {data[ticker].keys()}")
 
                 self.create_json_file_from_data(data)
                 logging.info(f"Updated stock_data.json")
