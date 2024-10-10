@@ -59,7 +59,7 @@ class Finance(object):
                 logging.warning(f"No valid data returned for ticker {ticker}")
 
         # Write the result to a JSON file
-        with open(os.path.join(self.data_directory, 'stock_data.json'), 'w') as f:
+        with open(os.path.join(data_directory, 'stock_data.json'), 'w') as f:
             json.dump(result, f, indent=2)
 
     def run_yfinance(self):
