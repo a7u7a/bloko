@@ -4,21 +4,13 @@ Version yFinance para obra Pedro Engel. Runs in two separate services, one for y
 
 ## Install scroller service
 
-- Create unit file: `$ sudo nano /lib/systemd/system/bloko.service`
-- Add this to the file:
+- Find sample file in `/samples/bloko.service`
+- Copy and paste the file to: `/lib/systemd/system/`
 
-```bash
-[Unit]
-Description=Bloko ticker scroller daemon
-After=multi-user.target
+## Install data service
 
-[Service]
-WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_scroller_app.sh
-
-[Install]
-WantedBy=multi-user.target
-```
+- Find sample file in `/samples/bloko-data.service`
+- Copy and paste the file to: `/lib/systemd/system/`
 
 ### Handy commands
 
@@ -28,38 +20,8 @@ WantedBy=multi-user.target
 - Stop: `$ service bloko stop`
 - Enable service on boot: `$ sudo systemctl enable bloko.service`
 
-## Install yfinance service
-
-### yfinance requires a virtual env to run
-
-- Create a new env: `python3 -m venv yfinance_env`
-- Activate env: `source yfinance_env/bin/activate`
-- Install yfinance: `pip install yfinance`
-- Test: `python async_finance.py`
-
-### Autostart
-
-- Create unit file: `$ sudo nano /lib/systemd/system/yfinance.service`
-- Add this to the file:
-
-```bash
-[Unit]
-Description=Bloko ticker yfinance daemon
-After=network.target
-
-[Service]
-User=pi
-WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run_yfinance_app.sh
-
-[Install]
-WantedBy=multi-user.target
-```
-
-### Handy commands
-
-- Check service status: `$ systemctl status yfinance.service`
+- Check service status: `$ systemctl status bloko-data.service`
 - Reload daemons: `$ sudo systemctl daemon-reload`
-- Restart service `$ sudo systemctl restart yfinance.service`
-- Stop: `$ service yfinance stop`
-- Enable service on boot: `$ sudo systemctl enable yfinance.service`
+- Restart service `$ sudo systemctl restart bloko-data.service`
+- Stop: `$ service bloko stop`
+- Enable service on boot: `$ sudo systemctl enable bloko-data.service`

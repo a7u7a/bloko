@@ -1,0 +1,13 @@
+# Copy this to /lib/systemd/system/bloko-data.service
+
+[Unit]
+Description=Bloko ticker data fetch daemon
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
+ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/src/data.py
+
+[Install]
+WantedBy=multi-user.target

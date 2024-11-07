@@ -1,0 +1,10 @@
+# @hostname = http://localhost:54321/functions/v1
+@hostname = {{$dotenv PROJECT_FUNCTIONS_URL}}
+
+GET {{hostname}}/test1
+
+###
+GET {{hostname}}/update-ticker-data-v1
+
+###
+GET {{hostname}}/get-ticker-data-v1
