@@ -23,7 +23,4 @@
 
 - Run scroller only: `$ ./run_scroller.sh`
 - Check service status: `$ systemctl status bloko.service`
-- Reload daemons: `$ sudo systemctl daemon-reload`
 - Restart service `$ sudo systemctl restart bloko.service`
-- Stop: `$ service bloko stop`
-- Enable service on boot: `$ sudo systemctl enable bloko.service
