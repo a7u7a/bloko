@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+yfinance_env/
+
+logs/
+
+data/stocks-data.json

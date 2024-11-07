@@ -1,0 +1,282 @@
+[
+  {
+    "id": "f6fa1e2b-9637-4904-8a7d-41ff523ff6da",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "TSLA",
+    "current_price": 288.53,
+    "regular_market_volume": 161473950,
+    "regular_market_change_percent": 1.3363772060760206
+  },
+  {
+    "id": "0fdcdfd2-0ed5-4be5-8572-5c8f7722ac54",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "MSFT",
+    "current_price": 420.18,
+    "regular_market_volume": 24741872,
+    "regular_market_change_percent": 1.8791067575103653
+  },
+  {
+    "id": "8c8e3044-53a1-45c0-bd7e-9631934d5cf2",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "AMZN",
+    "current_price": 207.09,
+    "regular_market_volume": 69560198,
+    "regular_market_change_percent": 3.4673994504121897
+  },
+  {
+    "id": "cbf18dc6-9657-4e36-ac59-1cacc66c691e",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "BP",
+    "current_price": 30.18,
+    "regular_market_volume": 9395072,
+    "regular_market_change_percent": 1.6161616161616175
+  },
+  {
+    "id": "289949b0-6039-4dc0-9fcd-492685212523",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "AAPL",
+    "current_price": 222.72,
+    "regular_market_volume": 50889507,
+    "regular_market_change_percent": 0.05390835579515029
+  },
+  {
+    "id": "0480cfed-2e1b-4b6b-87a8-bcdf3b59e39e",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "ABT",
+    "current_price": 116.78,
+    "regular_market_volume": 4124031,
+    "regular_market_change_percent": -3.487603305785123
+  },
+  {
+    "id": "66f01bcf-c11f-45dc-a20a-f8cafb4edc2a",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "ACN",
+    "current_price": 356.13,
+    "regular_market_volume": 2415698,
+    "regular_market_change_percent": 0.06462489463332909
+  },
+  {
+    "id": "8e5e472f-0f79-4e26-bfe7-1c6368428da2",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "ADBE",
+    "current_price": 504.83,
+    "regular_market_volume": 2803299,
+    "regular_market_change_percent": 1.8212989108511441
+  },
+  {
+    "id": "7cf18468-5608-45b6-a184-2bf47928ef93",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "ASML",
+    "current_price": 661.43,
+    "regular_market_volume": 3154843,
+    "regular_market_change_percent": -1.0013171286595304
+  },
+  {
+    "id": "6d6be8fd-083a-442c-97c4-6b5a0d840e57",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "AVGO",
+    "current_price": 179.55,
+    "regular_market_volume": 20962848,
+    "regular_market_change_percent": 0.05015045135406408
+  },
+  {
+    "id": "096a2a95-06ef-475c-abe3-e51db7b50dfa",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "CMCSA",
+    "current_price": 45.14,
+    "regular_market_volume": 29659157,
+    "regular_market_change_percent": 2.988820442619216
+  },
+  {
+    "id": "16c10136-12e2-4177-aa47-dc0b425214a7",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "COST",
+    "current_price": 899.25,
+    "regular_market_volume": 2180090,
+    "regular_market_change_percent": 0.10798414748185725
+  },
+  {
+    "id": "189a0370-00b2-4130-ad10-d2a20d7aabcf",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "CSCO",
+    "current_price": 57.87,
+    "regular_market_volume": 17754905,
+    "regular_market_change_percent": 1.190788438336039
+  },
+  {
+    "id": "daac5974-0de1-4fd9-8caf-a272ceb66d31",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "CVX",
+    "current_price": 157.63,
+    "regular_market_volume": 9208165,
+    "regular_market_change_percent": 0.33736473583704724
+  },
+  {
+    "id": "28477dea-de57-424b-8e03-7c9f68293c99",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "DIS",
+    "current_price": 98.85,
+    "regular_market_volume": 8878608,
+    "regular_market_change_percent": 0.6516647999185425
+  },
+  {
+    "id": "1f9659f2-ac19-4b3a-8860-11cf409968b7",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "META",
+    "current_price": 572.05,
+    "regular_market_volume": 17559498,
+    "regular_market_change_percent": 1.6525988449577884
+  },
+  {
+    "id": "04304a0b-6c37-4021-bb0d-5a4bef092266",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "GOOGL",
+    "current_price": 176.51,
+    "regular_market_volume": 31619446,
+    "regular_market_change_percent": 1.5563418773913202
+  },
+  {
+    "id": "0fba8b50-b819-4ccf-acac-c7270026d145",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "HD",
+    "current_price": 388.23,
+    "regular_market_volume": 5894585,
+    "regular_market_change_percent": -1.4744695969952295
+  },
+  {
+    "id": "3993276c-7c2a-4f41-ba0c-fc2795ac29b2",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "JNJ",
+    "current_price": 157.765,
+    "regular_market_volume": 6583230,
+    "regular_market_change_percent": -1.3352095059412252
+  },
+  {
+    "id": "54efeba0-b21c-4327-99f4-8824d0d7aaea",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "JPM",
+    "current_price": 247.0781,
+    "regular_market_volume": 20837570,
+    "regular_market_change_percent": 5.139617021276599
+  },
+  {
+    "id": "fa5da30d-68f9-46e6-8a09-3df84e05b50a",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "KO",
+    "current_price": 63.675,
+    "regular_market_volume": 18505016,
+    "regular_market_change_percent": -1.1564731449860362
+  },
+  {
+    "id": "83863bca-9ec8-4381-af22-3a0967839d9d",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "MA",
+    "current_price": 521.15,
+    "regular_market_volume": 2720145,
+    "regular_market_change_percent": 0.055677149329947315
+  },
+  {
+    "id": "8123e855-cac1-48d4-b228-66dedefccdc7",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "NKE",
+    "current_price": 75.295,
+    "regular_market_volume": 12825206,
+    "regular_market_change_percent": -2.04891375048784
+  },
+  {
+    "id": "487f706d-c309-43d9-b663-f2f1b4dee55f",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "NVDA",
+    "current_price": 145.61,
+    "regular_market_volume": 232441544,
+    "regular_market_change_percent": 1.875043727698878
+  },
+  {
+    "id": "5c1f3f0a-20cb-44db-b39b-a5d39ff30ffb",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "PEP",
+    "current_price": 164.71,
+    "regular_market_volume": 6579250,
+    "regular_market_change_percent": -1.471555901178429
+  },
+  {
+    "id": "996b7454-f097-4374-8668-f256099a814b",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "PFE",
+    "current_price": 27.36,
+    "regular_market_volume": 56429480,
+    "regular_market_change_percent": -2.040816326530613
+  },
+  {
+    "id": "33da57dc-cfda-41a4-8b87-1159914a1f6f",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "PRDSY",
+    "current_price": 15.03,
+    "regular_market_volume": 500,
+    "regular_market_change_percent": 0
+  },
+  {
+    "id": "39ecf6df-0e10-4452-ad95-9212618e0013",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "SHEL",
+    "current_price": 68.36,
+    "regular_market_volume": 7143930,
+    "regular_market_change_percent": 1.8170985999404212
+  },
+  {
+    "id": "1ee0a81b-25be-46f3-ab8f-84d4aee29b18",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "TM",
+    "current_price": 175.14,
+    "regular_market_volume": 547826,
+    "regular_market_change_percent": -0.06276747503567112
+  },
+  {
+    "id": "fee01926-6618-44f0-875e-78414ed138e8",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "V",
+    "current_price": 307.3575,
+    "regular_market_volume": 8606245,
+    "regular_market_change_percent": 0.3386980934970041
+  },
+  {
+    "id": "860ff600-3c13-4012-9474-0452aa21fe58",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "VZ",
+    "current_price": 41.1628,
+    "regular_market_volume": 18297987,
+    "regular_market_change_percent": -0.6689189189189203
+  },
+  {
+    "id": "7ef35472-d146-49bf-926e-888285b32664",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "WMT",
+    "current_price": 83.44,
+    "regular_market_volume": 15596295,
+    "regular_market_change_percent": -1.9967112990368838
+  },
+  {
+    "id": "8bf4855f-bb61-46b2-bf4b-42847c2f1865",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "XOM",
+    "current_price": 120.95,
+    "regular_market_volume": 15186471,
+    "regular_market_change_percent": -0.1609641338891355
+  },
+  {
+    "id": "f2a3a5e6-421a-4942-abbd-df91929e49c0",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "UNH",
+    "current_price": 596.72,
+    "regular_market_volume": 5629530,
+    "regular_market_change_percent": -1.1881204514029682
+  },
+  {
+    "id": "a0e57ada-372d-451b-834e-82997c01dfe5",
+    "created_at": "2024-11-06T21:06:21.73746+00:00",
+    "symbol": "BAC",
+    "current_price": 45.39,
+    "regular_market_volume": 95759400,
+    "regular_market_change_percent": 1.3169642857142934
+  }
+]
