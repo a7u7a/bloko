@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 WorkingDirectory=/home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/
-ExecStart=/usr/bin/python3 /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/src/scroller.py --led-cols=768 --led-slowdown=5 --led-gpio-mapping=regular --led-rows=32 --led-chain=1 --led-pixel-mapper=V-mapper  --led-parallel=2 --led-brightness=70
+ExecStart=/bin/bash /home/pi/rpi-rgb-led-matrix/bindings/python/samples/bloko/run-scroller.sh
 
 [Install]
 WantedBy=multi-user.target

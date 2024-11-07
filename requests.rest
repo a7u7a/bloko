@@ -1,5 +1,4 @@
-# @hostname = http://localhost:54321/functions/v1
-@hostname = {{$dotenv PROJECT_FUNCTIONS_URL}}
+@hostname = https://oqbhgishqhkteqpzyavt.supabase.co/functions/v1
 
 GET {{hostname}}/test1
 
