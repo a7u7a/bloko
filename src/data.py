@@ -8,15 +8,11 @@ from datetime import datetime, timedelta
 # Configuration
 FETCH_URL = 'https://oqbhgishqhkteqpzyavt.supabase.co/functions/v1/get-ticker-data-v1'
 SLEEP_INTERVAL = 60 # in minutes
-STALE_THRESHOLD = 60  # in minutes
+STALE_THRESHOLD = 60 # in minutes
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-logs_filename = "bloko-data.log"
-stocks_data_filename = "stocks-data.json"
-data_path = PROJECT_ROOT + '/data/'
-log_path = PROJECT_ROOT + '/logs/'
 DATA_FILE_PATH=os.path.join(PROJECT_ROOT, 'data', 'stocks-data.json')
-LOG_FILE_PATH =  os.path.join(PROJECT_ROOT, 'logs', 'bloko-scroller.log')
+LOG_FILE_PATH =  os.path.join(PROJECT_ROOT, 'logs', 'bloko-data.log')
 
 # Setup logging
 logging.basicConfig(
@@ -62,13 +58,13 @@ def main():
                 try:
                     data = json.load(f)
                     if is_data_valid(data) and not is_data_stale(DATA_FILE_PATH, STALE_THRESHOLD):
-                        logging.info("Found valid and still fresh data in stocks file. Sleeping...")
+                        logging.info("Valid and fresh data found in stocks file. Sleeping...")
                         time.sleep(SLEEP_INTERVAL * 60)
                         continue
                 except json.JSONDecodeError:
                     logging.error("Failed to decode JSON data.")
         
-        logging.info("Data is invalid or stale. Fetching new data...")
+        logging.info("Data is either not found, invalid or stale. Fetching new data...")
         fetch_and_save_data()
         logging.info(f"Sleeping for {SLEEP_INTERVAL} minutes...")
         time.sleep(SLEEP_INTERVAL * 60)

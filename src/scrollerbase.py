@@ -1,20 +1,33 @@
 import sys
-import os, os.path
+import os
+import logging
 from time import sleep
 from dataclasses import dataclass
 import math
 import uuid
 import json
 from PIL import Image
+from json_parser import parse_stocks_data
 
 from tickers import TickerData
 from rgbmatrix import graphics
 
 # Import samplebase from parent directory 'samples'
-current = os.path.dirname(os.path.realpath(__file__))
-parent = os.path.dirname(current)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+parent = os.path.dirname(PROJECT_ROOT)
 sys.path.append(parent)
 from samplebase import SampleBase
+
+# # Project paths setup
+DATA_FILE_PATH = os.path.join(PROJECT_ROOT, 'data', 'stocks-data.json')
+LOG_FILE_PATH = os.path.join(PROJECT_ROOT, 'logs', 'bloko-scroller.log')
+
+# Setup logging
+logging.basicConfig(
+    filename=LOG_FILE_PATH,
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 @dataclass
 class Ticker:
@@ -27,27 +40,28 @@ data_directory = './data/'
 
 class Scroller(SampleBase):
     def __init__(self):
+        logging.info("Initializing Scroller...")
         super(Scroller, self).__init__()
         self.load_stocks()
 
     def init_fonts(self):
         self.font = graphics.Font()
         self.interrupt_font = graphics.Font()
-        self.font.LoadFont("../../../../fonts/7x13.bdf")
-        self.interrupt_font.LoadFont("./fonts/helvB18.bdf")
+        self.font.LoadFont(os.path.join(PROJECT_ROOT, "fonts", "7x13.bdf"))
+        self.interrupt_font.LoadFont(os.path.join(PROJECT_ROOT, "fonts", "helvB18.bdf"))
 
     def run(self):
         self.frame_buffer = self.matrix.CreateFrameCanvas()
         self.tickers = TickerData().tickers
         self.images = self.load_imgs()
-        self.arrow_up = Image.open("./images/symbols/arrow_green.ppm").convert('RGB')
-        self.arrow_down = Image.open("./images/symbols/arrow_red.ppm").convert('RGB')
+        self.arrow_up = Image.open(os.path.join(PROJECT_ROOT,"images","symbols", "arrow_green.ppm")).convert('RGB')
+        self.arrow_down = Image.open(os.path.join(PROJECT_ROOT,"images","symbols", "arrow_red.ppm")).convert('RGB')
         self.active_tickers = [self.new_ticker(0)]
         self.init_fonts()
         self.init_colors()
         self.t_index = 0
 
-        # main scroller loop
+        # Main scroller loop
         while True:
             self.update_tickers()
 
@@ -65,7 +79,8 @@ class Scroller(SampleBase):
     def load_imgs(self):
         img_dict = {}
         for t in self.tickers:
-            image = Image.open(t["image_path"]).convert('RGB')
+            img_path = os.path.join(PROJECT_ROOT, "images", "tickers", t["image_path"])
+            image = Image.open(img_path).convert('RGB')
             t_name = t["name"]
             img_dict[t_name] = image
         return img_dict
@@ -73,21 +88,15 @@ class Scroller(SampleBase):
     def new_ticker(self, index):
         return Ticker(id=uuid.uuid1(), name=self.tickers[index]["name"], pos=self.frame_buffer.width)
 
-    def interrupt(self, text):
-        self.int_text = text
-        self.max_brightness = self.matrix.brightness
-        self.int_flag = True
-        self.sleep_once_flag = True
-        self.clear_buffer_flag = True
-
     def load_stocks(self):
+            logging.info("Reading updated stocks data from file...")
             try:
-                with open(os.path.join(data_directory, 'stock_data.json')) as json_file:
-                    self.stock_data = json.load(json_file)
-                    print("Updated stock data OK")
-            except Exception as e: 
-                print("ERROR load_stocks:",e)
-                print("Error updating stock data")
+                with open(DATA_FILE_PATH) as json_file:
+                    json_data = json.load(json_file)
+                    self.stock_data = parse_stocks_data(json_data)
+                    logging.info("Updated stock data OK!")
+            except Exception as e:
+                logging.error("Error loading stocks data")
                 self.stock_data = None
 
     def get_ticker_fields_from_data(self, name):
@@ -98,14 +107,13 @@ class Scroller(SampleBase):
         if self.stock_data is not None:
             try:
                 ticker_data = self.stock_data[name]
-                price = str(round(ticker_data["currentPrice"], 2))
-                change = str(round(ticker_data["regularMarketChangePercent"], 2))
-                change_raw = round(ticker_data["regularMarketChangePercent"], 2)
+                price = str(round(ticker_data["current_price"], 2))
+                change = str(round(ticker_data["regular_market_change_percent"], 2))
+                change_raw = round(ticker_data["regular_market_change_percent"], 2)
             except Exception as e:
-                print("Error at scrollerbase get_ticker_fields_from_data():", e)
+                logging.error("Error at scrollerbase get_ticker_fields_from_data()")
         else:
-            print("No ticker data yet. Stocks may still file is loading..")
-            
+            logging.info("No ticker data yet. Stocks may still file is loading..")
         return [price, change, change_raw]
 
     def update_tickers(self):
@@ -125,7 +133,6 @@ class Scroller(SampleBase):
 
             # compose frame
             self.frame_buffer.SetImage(t_image, t_pos)
-            # print("change_raw",change_raw)
             if change_raw > 0:
                 arrow = self.arrow_up
                 change_color = self.up_color
@@ -145,7 +152,6 @@ class Scroller(SampleBase):
             price_pos = text_base_pos
             price_w = graphics.DrawText(self.frame_buffer, self.font, price_pos, second_line_h, self.up_color, price)
             arrow_pos = price_pos + base_margin + price_w
-            # if change_raw != 0: # no arrow when change is zero
             self.frame_buffer.SetImage(arrow, arrow_pos, arrow_pos_h)
             change_pos = arrow_pos + arrow_w + base_margin
             change_w = graphics.DrawText(self.frame_buffer, self.font, change_pos, second_line_h, change_color, change)
@@ -181,5 +187,5 @@ class Scroller(SampleBase):
 
 if __name__ == "__main__":
     scroller = Scroller()
-    if (not scroller.process()):
-        scroller.print_help()
+    # if (not scroller.process()):
+    #     scroller.print_help()
