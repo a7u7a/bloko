@@ -30,7 +30,7 @@ class Handler(watchdog.events.PatternMatchingEventHandler):
         
     def on_modified(self, event):
         logging.info(f"Watchdog: Stocks file modified - {event.src_path}")
-        scroller.load_stocks()
+        scroller.stock_data.load_stocks()
   
 class JsonWatcher:
     def __init__(self, data_dir):
