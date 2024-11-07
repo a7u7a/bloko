@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 
 yfinance_env/
+
+logs/
+
+data/stocks-data.json

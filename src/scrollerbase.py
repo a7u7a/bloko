@@ -28,7 +28,6 @@ data_directory = './data/'
 class Scroller(SampleBase):
     def __init__(self):
         super(Scroller, self).__init__()
-        self.int_flag = False
         self.load_stocks()
 
     def init_fonts(self):
@@ -50,59 +49,13 @@ class Scroller(SampleBase):
 
         # main scroller loop
         while True:
-            if not self.int_flag:
-                self.update_tickers()
-            else:
-                self.update_interruption()
-            self.usleep(10000)
+            self.update_tickers()
 
     def init_colors(self):
         self.base_color = graphics.Color(255, 255, 255)
         self.up_color = graphics.Color(0, 255, 0)
         self.down_color = graphics.Color(255, 0, 0)
         self.interrupt_color = graphics.Color(255,0, 0)
-
-    def update_interruption(self):
-        self.clear_buffer_on_interruption()
-        self.int_flag = False
-
-    def clear_buffer_on_interruption(self):
-        if self.clear_buffer_flag:
-            self.frame_buffer.Clear()
-            self.matrix.Fill(0, 0, 0)
-            # draw init text
-            txt_w = graphics.DrawText(self.frame_buffer, self.interrupt_font, 0, 24, self.interrupt_color, self.int_text)
-            reps = self.get_reps(txt_w)
-            print("reps:", reps, "text width:",txt_w, "screen width:", self.matrix.width)
-            if reps > 1:
-                self.print_reps(reps, txt_w)
-            else:
-                self.frame_buffer.Clear()
-                anchor=(self.matrix.width/2) - (txt_w/2)
-                graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
-            self.frame_buffer = self.matrix.SwapOnVSync(self.frame_buffer)
-            self.sleep_once(20)
-            self.clear_buffer_flag = False
-
-    def get_reps(self, txt_w):
-        space_avail = self.matrix.width - txt_w 
-        min_margin = 10
-        reps = 0
-        while space_avail > (txt_w + min_margin):
-            reps += 1
-            space_avail = space_avail - (txt_w + min_margin)
-        return reps
-    
-    # 487 1536
-    def print_reps(self, reps, txt_w):
-        #space_avail = self.matrix.width - txt_w
-        increment = math.floor(self.matrix.width / (reps + 1))
-        anchor = increment
-        print("increment", increment)
-        for rep in range(0, reps):
-            print("printing rep:", rep, "at anchor:", anchor)
-            graphics.DrawText(self.frame_buffer, self.interrupt_font, anchor, 24, self.interrupt_color, self.int_text)
-            anchor += increment
 
     def sleep_once(self, t):
         if self.sleep_once_flag:
