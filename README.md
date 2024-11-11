@@ -4,11 +4,12 @@
 - It's job is to control an LED display, similar to the ones seen on financial districts. Here is a picture of it in action at [Hessel Museum of Art](https://ccs.bard.edu/museum):
 ![Stones Above Diamonds by Ignacio Gatica](images/expo.jpeg)
 
-### Install
+## Install
+
 - This software is meant to run on a Raspberry Pi running Raspberry Pi OS. Tested on Raspberry Pi OS Lite Kernel version: 5.10, Debian version: 11 (bullseye)
 - Requires Python version 3.7 at least, tested on 3.9
 - Requires internet connection in order to update ticker values
-- For the ticker display: 
+- For the ticker display:
   - You must first install this: https://github.com/hzeller/rpi-rgb-led-matrix
   - Make sure Python 3 bindings are correctly installed by running some samples 
   - Then clone this repo inside `bindings/python/samples` folder

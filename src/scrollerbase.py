@@ -1,7 +1,6 @@
 import sys
 import os
 import logging
-from time import sleep
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 import uuid
@@ -110,7 +109,6 @@ class Scroller(SampleBase):
         self.display_config = DisplayConfig()
         self.active_tickers: List[Ticker] = []
         self.t_index = 0
-        self.sleep_once_flag = True
 
     def initialize(self) -> bool:
         try:
@@ -144,6 +142,7 @@ class Scroller(SampleBase):
 
         while True:
             self.update_tickers()
+            self.usleep(8500)
 
     def update_tickers(self):
         self.frame_buffer.Clear()
