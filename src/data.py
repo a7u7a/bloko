@@ -1,3 +1,5 @@
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import os
 import json
 import time
@@ -35,7 +37,7 @@ def is_data_stale(file_path, threshold_minutes):
 
 def fetch_and_save_data():
     try:
-        response = requests.get(FETCH_URL)
+        response = requests.get(FETCH_URL, verify=False)
         response.raise_for_status()
         data = response.json()
 
