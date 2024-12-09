@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 # Configuration
 FETCH_URL = 'https://oqbhgishqhkteqpzyavt.supabase.co/functions/v1/get-ticker-data-v1'
-SLEEP_INTERVAL = 60 # in minutes
+SLEEP_INTERVAL = 90 # in minutes
 STALE_THRESHOLD = 60 # in minutes
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
