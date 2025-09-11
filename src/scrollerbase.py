@@ -21,11 +21,11 @@ sys.path.append(parent)
 from samplebase import SampleBase
 
 # Setup logging
-logging.basicConfig(
-    filename=LOG_FILE_PATH,
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+# logging.basicConfig(
+#     filename=LOG_FILE_PATH,
+#     level=logging.INFO,
+#     format='%(asctime)s - %(levelname)s - %(message)s'
+# )
 
 @dataclass
 class Ticker:
@@ -79,10 +79,10 @@ class StockDataManager:
             with open(self.data_file_path) as json_file:
                 json_data = json.load(json_file)
                 self.stock_data = parse_stocks_data(json_data)
-                logging.info("Updated stock data successfully")
+                # logging.info("Updated stock data successfully")
                 return True
         except Exception as e:
-            logging.error(f"Error loading stocks data: {e}")
+            # logging.error(f"Error loading stocks data: {e}")
             self.stock_data = None
             return False
 
@@ -98,7 +98,7 @@ class StockDataManager:
             change_str = str(change_raw)
             return price, change_str, change_raw
         except Exception as e:
-            logging.error(f"Error getting ticker data for {ticker_name}: {e}")
+            # logging.error(f"Error getting ticker data for {ticker_name}: {e}")
             return ("error", "error", 0.0)
 
 class Scroller(SampleBase):
@@ -127,7 +127,7 @@ class Scroller(SampleBase):
             
             return True
         except Exception as e:
-            logging.error(f"Initialization failed: {e}")
+            # logging.error(f"Initialization failed: {e}")
             return False
 
     def new_ticker(self, index: int) -> Ticker:
@@ -139,7 +139,7 @@ class Scroller(SampleBase):
 
     def run(self):
         if not self.initialize():
-            logging.error("Failed to initialize scroller")
+            # logging.error("Failed to initialize scroller")
             return
 
         while True:
